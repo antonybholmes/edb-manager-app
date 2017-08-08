@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<setting name="edb.manager.server" value="localhost"/>
+	<setting name="edb.manager.db" value=""/>
+	<setting name="edb.manager.user" value=""/>
+	<setting name="edb.manager.password" value=""/>
+	
+	<setting name="edb.manager.help.type" value="web" />
+	<setting name="edb.manager.help.url" value="https://bitbucket.org/lab_rdf/edb.manager/wiki" />
+</settings>
