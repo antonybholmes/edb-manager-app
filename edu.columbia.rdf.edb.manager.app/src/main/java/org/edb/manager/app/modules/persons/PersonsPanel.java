@@ -15,7 +15,6 @@ import org.abh.common.database.query.InsertQuery;
 import org.abh.common.database.query.OrderByQuery;
 import org.abh.common.database.query.SelectFromQuery;
 import org.abh.common.database.query.SelectWhereQuery;
-import org.abh.common.database.query.Table;
 import org.abh.common.database.query.TableQuery;
 import org.abh.common.database.query.ValuesQuery;
 import org.abh.common.database.query.WhereQuery;
@@ -88,6 +87,12 @@ public class PersonsPanel extends ModernPanel {
 	private WhereQuery mQueryApiKey;
 
 	private InsertQuery mAddPersonQuery;
+
+	private InsertQuery mAddGroupQuery;
+
+	private SelectWhereQuery mPersonIdQuery;
+
+	private SelectWhereQuery mGroupIdQuery;
 
 	public PersonsPanel(Connection connection, MainManagerWindow window) throws SQLException {
 		mConnection = connection;
@@ -176,6 +181,14 @@ public class PersonsPanel extends ModernPanel {
 				"api_key")
 				.from("persons");
 		
+		mPersonIdQuery = mQuery.select("id")
+				.from("persons")
+				.where("first_name", "last_name");
+		
+		mGroupIdQuery = mQuery.select("id")
+				.from("groups")
+				.where("name");
+		
 		mOrderPersonsQuery = mPersonsQuery.order("last_name").col("first_name");
 		
 		mPersonQuery = mPersonsQuery.where("id");
@@ -192,6 +205,9 @@ public class PersonsPanel extends ModernPanel {
 						"salt",
 						"public_uuid",
 						"api_key");
+		
+		mAddGroupQuery = mQuery.insert("groups_persons")
+				.cols("group_id", "person_id");
 
 		
 		mQueryUpdateFirstName = mQuery.update("persons").set("first_name").where("id");
@@ -277,13 +293,15 @@ public class PersonsPanel extends ModernPanel {
 			return;
 		}
 		
-		String password;
+		String password = TextUtils.EMPTY_STRING;
 		
 		if (!TextUtils.isNullOrEmpty(dialog.getPassword())) {
 			password = Cryptography.getSHA512Hash(dialog.getPassword(), dialog.getSalt());
-		} else {
-			password = null;
 		}
+		
+		
+		// Make all users normal since the user type field is ignored
+		int userType = 2;
 		
 		mAddPersonQuery.values(dialog.getFirstName(), 
 				dialog.getLastName(),
@@ -291,12 +309,42 @@ public class PersonsPanel extends ModernPanel {
 				dialog.getPhone(),
 				dialog.getAddress(),
 				dialog.getEmail(),
-				dialog.getPersonType(),
+				userType,
 				password,
 				dialog.getSalt(),
 				dialog.getPublicId(),
 				dialog.getApiKey()).execute();
+		
+		// Create the group link
+		
+		DatabaseResultsTable table = mPersonIdQuery
+				.values(dialog.getFirstName(), dialog.getLastName())
+				.fetch();
 
+		int userId = table.getInt(0, 0);
+		
+		String group;
+		
+		switch(dialog.getPersonType()) {
+		case 0:
+			group = "Administrator";
+			break;
+		case 1:
+			group = "Superuser";
+			break;
+		default:
+			group = "Normal";
+			break;
+		}
+		
+		table = mGroupIdQuery
+				.values(group)
+				.fetch();
+		
+		int groupId = table.getInt(0, 0);
+		
+		mAddGroupQuery.values(groupId, userId).execute();
+		
 		refresh();
 	}
 

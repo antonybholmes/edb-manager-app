@@ -10,17 +10,13 @@ import javax.swing.Box;
 import org.abh.common.cryptography.Cryptography;
 import org.abh.common.database.DatabaseResultsTable;
 import org.abh.common.ui.UI;
-import org.abh.common.ui.button.ButtonsBox;
 import org.abh.common.ui.button.ModernButton;
 import org.abh.common.ui.combobox.ModernComboBox;
-import org.abh.common.ui.dialog.ModernDialogButton;
 import org.abh.common.ui.dialog.ModernDialogFlatButton;
-import org.abh.common.ui.dialog.ModernDialogStatus;
-import org.abh.common.ui.dialog.ModernDialogWindow;
+import org.abh.common.ui.dialog.ModernDialogTaskWindow;
 import org.abh.common.ui.event.ModernClickEvent;
 import org.abh.common.ui.event.ModernClickListener;
 import org.abh.common.ui.panel.MatrixPanel;
-import org.abh.common.ui.panel.ModernPanel;
 import org.abh.common.ui.panel.VBox;
 import org.abh.common.ui.text.ModernAutoSizeLabel;
 import org.abh.common.ui.text.ModernClipboardTextField;
@@ -37,15 +33,10 @@ import org.edb.manager.app.tools.Persons;
  * @author Antony Holmes Holmes
  *
  */
-public class PersonDialog extends ModernDialogWindow implements ModernClickListener {
+public class PersonDialog extends ModernDialogTaskWindow implements ModernClickListener {
 	private static final long serialVersionUID = 1L;
 	
-	private ModernButton mOkButton = 
-			new ModernDialogButton(UI.BUTTON_OK);
-	
-	private ModernButton mCancelButton = 
-			new ModernDialogButton(UI.BUTTON_CANCEL);
-	
+
 	private ModernTextField mFirstNameField = new ModernClipboardTextField();
 	private ModernTextField mLastNameField = new ModernClipboardTextField();
 	private ModernTextField mAffiliationField = new ModernClipboardTextField();
@@ -117,9 +108,6 @@ public class PersonDialog extends ModernDialogWindow implements ModernClickListe
 		
 		mPublicIdField.setEditable(false);
 
-		mOkButton.addClickListener(this);
-		mCancelButton.addClickListener(this);
-		
 		mGenPublicIdButton.addClickListener(new ModernClickListener() {
 
 			@Override
@@ -193,23 +181,7 @@ public class PersonDialog extends ModernDialogWindow implements ModernClickListe
 		matrixPanel.add(mGenKeyButton);
 		box.add(matrixPanel);
 		
-		setContent(box);
-
-		Box buttonPanel = new ButtonsBox();
-
-		buttonPanel.add(mOkButton);
-		buttonPanel.add(ModernPanel.createHGap());
-		buttonPanel.add(mCancelButton);
-
-		setButtons(buttonPanel);
-	}
-
-	public final void clicked(ModernClickEvent e) {
-		if (e.getSource().equals(mOkButton)) {
-			setStatus(ModernDialogStatus.OK);
-		}
-
-		close();
+		setDialogCardContent(box);
 	}
 
 	public String getFirstName() {
@@ -249,7 +221,7 @@ public class PersonDialog extends ModernDialogWindow implements ModernClickListe
 	}
 	
 	public int getPersonType() {
-		return mTypeCombo.getSelectedIndex() + 2;
+		return mTypeCombo.getSelectedIndex(); // + 2;
 	}
 
 	public String getSalt() {

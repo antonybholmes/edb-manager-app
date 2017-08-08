@@ -11,8 +11,8 @@ public class UserTypeCombo extends ModernComboBox {
 
 	
 	public UserTypeCombo() {
-		addMenuItem("Normal");
 		addMenuItem("Administrator");
 		addMenuItem("Superuser");
+		addMenuItem("Normal");
 	}
 }

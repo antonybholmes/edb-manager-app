@@ -61,7 +61,7 @@ public class GroupDialog extends ModernDialogTaskWindow implements ModernClickLi
 	}
 
 	private void setup() {
-		setSize(640, 480);
+		setSize(600, 200);
 		
 		UI.centerWindowToScreen(this);
 	}
@@ -71,7 +71,7 @@ public class GroupDialog extends ModernDialogTaskWindow implements ModernClickLi
 		Box box = VBox.create();
 		
 		int[] rows = {ModernWidget.WIDGET_HEIGHT};
-		int[] cols = {100, 600, 80};
+		int[] cols = {100, 400};
 		
 		MatrixPanel matrixPanel = new MatrixPanel(rows, 
 				cols, 
@@ -83,7 +83,7 @@ public class GroupDialog extends ModernDialogTaskWindow implements ModernClickLi
 		
 		box.add(matrixPanel);
 		
-		setContent(box);
+		setDialogCardContent(box);
 	}
 
 	public String getName() {
