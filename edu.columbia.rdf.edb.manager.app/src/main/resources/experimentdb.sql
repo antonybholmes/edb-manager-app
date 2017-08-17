@@ -47,6 +47,7 @@ ALTER TABLE login_persons ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON 
 DROP TABLE IF EXISTS groups CASCADE;
 CREATE TABLE groups (id SERIAL NOT NULL PRIMARY KEY,
 name VARCHAR(255) NOT NULL UNIQUE, 
+color CHAR(7) NOT NULL DEFAULT '#ECECEC', 
 created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 INSERT INTO groups (name) VALUES ('Administrator');
 INSERT INTO groups (name) VALUES ('Superuser');

@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.edb</groupId>
-	<artifactId>org.edb.manager.app</artifactId>
+	<groupId> edu.columbia.rdf.edb</groupId>
+	<artifactId> edu.columbia.rdf.edb.manager.app</artifactId>
 	<version>1.0.0</version>
-	<name>org.edb.manager.app</name>
-	<description>EDB Manager</description>
+	<name> edu.columbia.rdf.edb.manager.app</name>
+	<description> edu.columbia.rdf.edb.manager.app</description>
 	<build>
 		<plugins>
 			<plugin>
@@ -31,7 +31,7 @@
 							<finalName>${project.artifactId}</finalName>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>org.edb.manager.app.MainManager</mainClass>
+									<mainClass>edu.columbia.rdf.edb.manager.app.MainManager</mainClass>
 									<!-- <mainClass>edu.columbia.rdf.edb.manager.app.tools.ChipSeq</mainClass> -->
 									<!-- <mainClass>edu.columbia.rdf.edb.manager.app.tools.GEP</mainClass> -->
 								</transformer>
@@ -58,7 +58,7 @@
 					<executable>java</executable>
 					<arguments>
 						<argument>-jar</argument>
-						<argument>target/org.edb.manager.app.jar</argument>
+						<argument>target/edu.columbia.rdf.edb.manager.app.jar</argument>
 					</arguments>
 				</configuration>
 			</plugin>
@@ -66,8 +66,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.abh</groupId>
-			<artifactId>org.abh.common</artifactId>
+			<groupId>org.jebtk</groupId>
+			<artifactId>org.jebtk.core</artifactId>
 			<version>1.0.0</version>
 			<exclusions>
 				<exclusion>
@@ -77,8 +77,8 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.abh</groupId>
-			<artifactId>org.abh.common.database</artifactId>
+			<groupId>org.jebtk</groupId>
+			<artifactId>org.jebtk.database</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
@@ -102,8 +102,8 @@
 			<version>9.4-1201-jdbc4</version>
 		</dependency>
 		<dependency>
-			<groupId>org.abh</groupId>
-			<artifactId>org.abh.common.ui</artifactId>
+			<groupId>org.jebtk</groupId>
+			<artifactId>org.jebtk.modern</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
