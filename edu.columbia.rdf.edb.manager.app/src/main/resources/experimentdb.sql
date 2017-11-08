@@ -1,16 +1,5 @@
 -- Login tables
 
-DROP TABLE IF EXISTS user_types CASCADE;
-CREATE TABLE user_types (id SERIAL NOT NULL PRIMARY KEY,
-name VARCHAR(255) NOT NULL UNIQUE, 
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-CREATE INDEX user_types_name_index ON user_types(name bpchar_pattern_ops);
-DELETE FROM user_types;
-INSERT INTO user_types (name) VALUES ('Non Login');
-INSERT INTO user_types (name) VALUES ('User');
-INSERT INTO user_types (name) VALUES ('Global User');
-INSERT INTO user_types (name) VALUES ('Administrator');
-
 DROP TABLE IF EXISTS persons CASCADE;
 CREATE TABLE persons (id SERIAL NOT NULL PRIMARY KEY, 
 public_id CHAR(32) NOT NULL UNIQUE,
@@ -20,7 +9,6 @@ affiliation VARCHAR(255) NOT NULL,
 phone VARCHAR(255) NOT NULL, 
 address VARCHAR(255) NOT NULL, 
 email VARCHAR(255) NOT NULL,
-user_type_id INTEGER NOT NULL DEFAULT 2,
 password_hash_salted CHAR(128),
 salt CHAR(128) NOT NULL,
 public_uuid CHAR(32) NOT NULL UNIQUE,
@@ -30,7 +18,6 @@ CREATE INDEX persons_first_name_index ON persons(first_name varchar_pattern_ops)
 CREATE INDEX persons_last_name_index ON persons(last_name varchar_pattern_ops);
 CREATE INDEX persons_email_index ON persons(email varchar_pattern_ops);
 CREATE INDEX persons_public_uuid_index ON persons(public_uuid bpchar_pattern_ops);
-ALTER TABLE persons ADD FOREIGN KEY (user_type_id) REFERENCES user_types(id) ON DELETE CASCADE;
 
 
 DROP TABLE IF EXISTS login_persons CASCADE;
@@ -162,11 +149,6 @@ provider_id INTEGER NOT NULL,
 created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 ALTER TABLE microarray_platforms ADD FOREIGN KEY (assay_id) REFERENCES microarray_assays(id) ON DELETE CASCADE;
 ALTER TABLE microarray_platforms ADD FOREIGN KEY (provider_id) REFERENCES providers(id) ON DELETE CASCADE;
-
-DROP TABLE IF EXISTS roles CASCADE;
-CREATE TABLE roles (id SERIAL NOT NULL PRIMARY KEY, 
-name varchar(255) NOT NULL UNIQUE,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 
 DROP TABLE IF EXISTS file_types CASCADE;
 CREATE TABLE file_types (id SERIAL NOT NULL PRIMARY KEY, 
@@ -583,7 +565,3 @@ INSERT INTO providers (name) VALUES ('Illumina');
 
 DELETE FROM assays;
 INSERT INTO assays (name) VALUES ('Gene Expression');
-
-DELETE FROM roles;
-INSERT INTO roles (name) VALUES ('Submitter');
-INSERT INTO roles (name) VALUES ('Investigator');

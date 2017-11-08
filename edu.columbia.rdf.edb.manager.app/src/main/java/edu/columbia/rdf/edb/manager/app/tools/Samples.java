@@ -77,6 +77,7 @@ public class Samples {
 		 */
 	}
 
+	/*
 	public static int createSamplePerson(Connection connection,
 			int sampleId,
 			int personId,
@@ -115,6 +116,7 @@ public class Samples {
 
 		return createSamplePerson(connection, sampleId, personId, role);
 	}
+	*/
 
 	public static int createSampleTag(Connection connection,
 			int sampleId, 
