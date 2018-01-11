@@ -4,15 +4,14 @@ import org.jebtk.modern.combobox.ModernComboBox;
 
 public class UserTypeCombo extends ModernComboBox {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	
-	public UserTypeCombo() {
-		addMenuItem("Administrator");
-		addMenuItem("Superuser");
-		addMenuItem("Normal");
-	}
+  public UserTypeCombo() {
+    addMenuItem("Administrator");
+    addMenuItem("Superuser");
+    addMenuItem("Normal");
+  }
 }

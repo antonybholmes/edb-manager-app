@@ -10,24 +10,24 @@ import edu.columbia.rdf.edb.manager.app.modules.EdbmModule;
 
 public class PersonGroupsModule extends EdbmModule {
 
-	private PersonGroupsPanel mPanel;
+  private PersonGroupsPanel mPanel;
 
-	@Override
-	public void init(Connection connection, MainManagerWindow window) {
-		try {
-			mPanel = new PersonGroupsPanel(connection, window);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+  @Override
+  public void init(Connection connection, MainManagerWindow window) {
+    try {
+      mPanel = new PersonGroupsPanel(connection, window);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
-	@Override
-	public ModernComponent getPanel() {
-		return mPanel;
-	}
+  @Override
+  public ModernComponent getPanel() {
+    return mPanel;
+  }
 
-	@Override
-	public String getName() {
-		return "Person Groups";
-	}
+  @Override
+  public String getName() {
+    return "Person Groups";
+  }
 }

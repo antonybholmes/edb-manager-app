@@ -22,67 +22,66 @@ import edu.columbia.rdf.edb.manager.app.MainManagerWindow;
 
 public class SamplesPanel extends ModernPanel {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private static final String SAMPLES_SQL = 
-			"SELECT samples.id, samples.experiment_id, samples.name, samples.description FROM samples ORDER BY samples.name";
+  private static final String SAMPLES_SQL = "SELECT samples.id, samples.experiment_id, samples.name, samples.description FROM samples ORDER BY samples.name";
 
-	private Connection mConnection;
+  private Connection mConnection;
 
-	private ModernRowTable mTable = new ModernRowTable();
+  private ModernRowTable mTable = new ModernRowTable();
 
-	private ModernButton mNewButton = new ModernButton("New...");
+  private ModernButton mNewButton = new ModernButton("New...");
 
-	private ModernButton mEditButton = 
-			new ModernButton(UIService.getInstance().loadIcon("edit_bw", 16));
+  private ModernButton mEditButton = new ModernButton(
+      UIService.getInstance().loadIcon("edit_bw", 16));
 
-	private ModernButton mDeleteButton = 
-			new ModernButton(UIService.getInstance().loadIcon("trash_bw", 16));
+  private ModernButton mDeleteButton = new ModernButton(
+      UIService.getInstance().loadIcon("trash_bw", 16));
 
-	private OrderByQuery mSamplesQuery;
+  private OrderByQuery mSamplesQuery;
 
-	private WhereQuery mDeleteQuery;
+  private WhereQuery mDeleteQuery;
 
-	public SamplesPanel(Connection connection, MainManagerWindow window) throws SQLException {
-		mConnection = connection;
+  public SamplesPanel(Connection connection, MainManagerWindow window)
+      throws SQLException {
+    mConnection = connection;
 
-		Box box = HBox.create();
+    Box box = HBox.create();
 
-		box.add(mNewButton);
-		box.add(createHGap());
-		box.add(mEditButton);
-		box.add(createHGap());
-		box.add(mDeleteButton);
+    box.add(mNewButton);
+    box.add(createHGap());
+    box.add(mEditButton);
+    box.add(createHGap());
+    box.add(mDeleteButton);
 
-		box.setBorder(BorderService.getInstance().createTopBottomBorder(DOUBLE_PADDING));
+    box.setBorder(
+        BorderService.getInstance().createTopBottomBorder(DOUBLE_PADDING));
 
-		setHeader(box);
+    setHeader(box);
 
-		ModernScrollPane scrollPane = new ModernScrollPane(mTable);
+    ModernScrollPane scrollPane = new ModernScrollPane(mTable);
 
-		setBody(scrollPane);
+    setBody(scrollPane);
 
-		setBorder(BORDER);
+    setBorder(BORDER);
 
-		mSamplesQuery = new TableQuery(mConnection).select("id", 
-				"experiment_id", 
-				"name", 
-				"description")
-				.from("samples")
-				.order("name");
+    mSamplesQuery = new TableQuery(mConnection)
+        .select("id", "experiment_id", "name", "description").from("samples")
+        .order("name");
 
-		mDeleteQuery = new TableQuery(mConnection).delete().from("samples").where("id");
+    mDeleteQuery = new TableQuery(mConnection).delete().from("samples")
+        .where("id");
 
-		refresh();
-	}
+    refresh();
+  }
 
-	private void refresh() throws SQLException {
-		DatabaseResultsTable results = mSamplesQuery.fetch();
+  private void refresh() throws SQLException {
+    DatabaseResultsTable results = mSamplesQuery.fetch();
 
-		System.err.println(mSamplesQuery.getSql());
+    System.err.println(mSamplesQuery.getSql());
 
-		ModernDataModel model = new SamplesTableModel(results);
+    ModernDataModel model = new SamplesTableModel(results);
 
-		mTable.setModel(model);
-	}
+    mTable.setModel(model);
+  }
 }

@@ -26,41 +26,48 @@ import edu.columbia.rdf.edb.manager.app.modules.persons.groups.PersonGroupsModul
 import edu.columbia.rdf.edb.manager.app.modules.samples.SamplesModule;
 import edu.columbia.rdf.edb.manager.app.tools.EDBLogin;
 
-
 public class MainManager {
-	public static final void main(String[] args) throws SAXException, IOException, ParserConfigurationException, KeyManagementException, NoSuchAlgorithmException, FontFormatException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, SQLException, ParseException {
-		main();
-	}
+  public static final void main(String[] args)
+      throws SAXException, IOException, ParserConfigurationException,
+      KeyManagementException, NoSuchAlgorithmException, FontFormatException,
+      ClassNotFoundException, InstantiationException, IllegalAccessException,
+      UnsupportedLookAndFeelException, SQLException, ParseException {
+    main();
+  }
 
-	public static void main() throws SAXException, IOException, ParserConfigurationException, KeyManagementException, NoSuchAlgorithmException, FontFormatException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, SQLException, ParseException {
-		AppService.getInstance().setAppInfo("edbm");
-		
-		ThemeService.getInstance().setTheme(ColorTheme.GREEN);
+  public static void main()
+      throws SAXException, IOException, ParserConfigurationException,
+      KeyManagementException, NoSuchAlgorithmException, FontFormatException,
+      ClassNotFoundException, InstantiationException, IllegalAccessException,
+      UnsupportedLookAndFeelException, SQLException, ParseException {
+    AppService.getInstance().setAppInfo("edbm");
 
-		//Network.disableSLLChecks();
+    ThemeService.getInstance().setTheme(ColorTheme.GREEN);
 
-		GuiAppInfo appInfo = new ManagerInfo();
+    // Network.disableSLLChecks();
 
-		EDBLogin login = new EDBLogin(SettingsService.getInstance().getAsString("edb.manager.server"),
-				SettingsService.getInstance().getAsString("edb.manager.db"),
-				SettingsService.getInstance().getAsString("edb.manager.user"),
-				SettingsService.getInstance().getAsString("edb.manager.password"));
+    GuiAppInfo appInfo = new ManagerInfo();
 
-		PluginService.getInstance().addPlugin(PersonsModule.class);
-		PluginService.getInstance().addPlugin(PersonGroupsModule.class);
-		PluginService.getInstance().addPlugin(ExperimentsModule.class);
-		PluginService.getInstance().addPlugin(ExperimentPermissionsModule.class);
-		PluginService.getInstance().addPlugin(SamplesModule.class);
-		PluginService.getInstance().addPlugin(GroupsModule.class);
+    EDBLogin login = new EDBLogin(
+        SettingsService.getInstance().getAsString("edb.manager.server"),
+        SettingsService.getInstance().getAsString("edb.manager.db"),
+        SettingsService.getInstance().getAsString("edb.manager.user"),
+        SettingsService.getInstance().getAsString("edb.manager.password"));
 
-		
-		//Connection connection = DatabaseService.getConnection();
-		//SamplePermissions.createViews(connection, 87, 6);
-		//VFS.createVfsPermissions(connection, 6);
-		//connection.close();
-		
-		ManagerLoginDialog window = new ManagerLoginDialog(login, appInfo);
-		
-		window.setVisible(true);
-	}
+    PluginService.getInstance().addPlugin(PersonsModule.class);
+    PluginService.getInstance().addPlugin(PersonGroupsModule.class);
+    PluginService.getInstance().addPlugin(ExperimentsModule.class);
+    PluginService.getInstance().addPlugin(ExperimentPermissionsModule.class);
+    PluginService.getInstance().addPlugin(SamplesModule.class);
+    PluginService.getInstance().addPlugin(GroupsModule.class);
+
+    // Connection connection = DatabaseService.getConnection();
+    // SamplePermissions.createViews(connection, 87, 6);
+    // VFS.createVfsPermissions(connection, 6);
+    // connection.close();
+
+    ManagerLoginDialog window = new ManagerLoginDialog(login, appInfo);
+
+    window.setVisible(true);
+  }
 }

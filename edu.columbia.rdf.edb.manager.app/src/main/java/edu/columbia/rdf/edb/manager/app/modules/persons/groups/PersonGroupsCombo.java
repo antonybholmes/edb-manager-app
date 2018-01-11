@@ -12,35 +12,31 @@ import org.jebtk.modern.combobox.ModernComboBox;
 
 public class PersonGroupsCombo extends ModernComboBox {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	
-	private List<Integer> mIds = new ArrayList<Integer>();
-	
-	public PersonGroupsCombo(Connection connection) throws SQLException {
-		TableQuery query = new TableQuery(connection);
-		
-		OrderByQuery personsQuery = query.select("id",
-				"first_name",
-				"last_name")
-				.from("persons")
-				.order("first_name", "last_name");
-		
-		DatabaseResultsTable results = personsQuery.fetch();
-		
-		for (int i = 0; i < results.getRowCount(); ++i) {
-			addMenuItem(results.getString(i, 1) + " " + results.getString(i, 2));
-			
-			mIds.add(results.getInt(i, 0));
-		}
-		
-		setSelectedIndex(0);
-	}
+  private List<Integer> mIds = new ArrayList<Integer>();
 
-	public int getSelectedId() {
-		return mIds.get(getSelectedIndex());
-	}
+  public PersonGroupsCombo(Connection connection) throws SQLException {
+    TableQuery query = new TableQuery(connection);
+
+    OrderByQuery personsQuery = query.select("id", "first_name", "last_name")
+        .from("persons").order("first_name", "last_name");
+
+    DatabaseResultsTable results = personsQuery.fetch();
+
+    for (int i = 0; i < results.getRowCount(); ++i) {
+      addMenuItem(results.getString(i, 1) + " " + results.getString(i, 2));
+
+      mIds.add(results.getInt(i, 0));
+    }
+
+    setSelectedIndex(0);
+  }
+
+  public int getSelectedId() {
+    return mIds.get(getSelectedIndex());
+  }
 }

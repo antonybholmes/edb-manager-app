@@ -19,95 +19,92 @@ import org.jebtk.modern.window.ModernSplashScreen;
 import edu.columbia.rdf.edb.manager.app.tools.EDBLogin;
 import edu.columbia.rdf.edb.ui.login.LoginButton;
 
+public class ManagerLoginDialog extends ModernSplashScreen
+    implements ModernClickListener {
+  private static final long serialVersionUID = 1L;
 
-public class ManagerLoginDialog extends ModernSplashScreen implements ModernClickListener {
-	private static final long serialVersionUID = 1L;
+  private LoginDetailsPanel mLoginPanel;
 
-	private LoginDetailsPanel mLoginPanel;
+  public ManagerLoginDialog(EDBLogin login, GuiAppInfo appInfo) {
+    super(appInfo);
 
+    setSize(640, 480);
+    // setResizable(false);
 
-	public ManagerLoginDialog(EDBLogin login,
-			GuiAppInfo appInfo) {
-		super(appInfo);
-		
-		setSize(640, 480);
-		//setResizable(false);
+    createUi(login);
+  }
 
-		createUi(login);
-	}
+  public final void createUi(EDBLogin login) {
 
-	public final void createUi(EDBLogin login) {
+    ModernPanel content = new ModernPanel(ModernSplashScreen.COLOR);
 
-		ModernPanel content = new ModernPanel(ModernSplashScreen.COLOR);
+    VBox vBox = VBox.create();
 
-		VBox vBox = VBox.create();
+    vBox.setBorder(BorderService.getInstance().createBorder(30));
 
-		vBox.setBorder(BorderService.getInstance().createBorder(30));
+    vBox.add(new ModernSplashTitleLabel(getAppInfo().getName())); // getAppInfo().getName()));
 
-		vBox.add(new ModernSplashTitleLabel(getAppInfo().getName())); //getAppInfo().getName()));
+    content.setHeader(vBox);
 
-		content.setHeader(vBox);
-		
-		vBox = VBox.create();
+    vBox = VBox.create();
 
-		vBox.setBorder(BorderService.getInstance().createBorder(30));
+    vBox.setBorder(BorderService.getInstance().createBorder(30));
 
-		//content.add(Ui.createVerticalGap(30));
+    // content.add(Ui.createVerticalGap(30));
 
-		mLoginPanel = new LoginDetailsPanel(login);
-		
-		vBox.add(mLoginPanel);
+    mLoginPanel = new LoginDetailsPanel(login);
 
-		vBox.add(UI.createVGap(10));
+    vBox.add(mLoginPanel);
 
-		//box.add(Box.createHorizontalGlue());
+    vBox.add(UI.createVGap(10));
 
-		Box box = HBox.create();
+    // box.add(Box.createHorizontalGlue());
 
-		LoginButton button = new LoginButton();
-		
-		button.addClickListener(this);
+    Box box = HBox.create();
 
-		box.add(UI.createHGap(85));
-		box.add(button);
-		//box.add(Box.createHorizontalGlue());
-		//box.add(mCacheButton);
+    LoginButton button = new LoginButton();
 
-		vBox.add(box);
+    button.addClickListener(this);
 
-		content.setBody(new ModernPanel(vBox));
-		
-		setBody(content);
+    box.add(UI.createHGap(85));
+    box.add(button);
+    // box.add(Box.createHorizontalGlue());
+    // box.add(mCacheButton);
 
-		UI.centerWindowToScreen(this);
+    vBox.add(box);
 
+    content.setBody(new ModernPanel(vBox));
 
-	}
+    setBody(content);
 
-	public final void clicked(ModernClickEvent e) {
-		if (e.getMessage().equals(UI.BUTTON_SIGN_IN)) {
-			
-			try {
-				EDBLogin login = mLoginPanel.getLoginDetails();
-				
-				MainManagerWindow mWindow = new MainManagerWindow(login);
-				
-				mWindow.setVisible(true);
-			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
-			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			
-			close();
-		} else if (e.getMessage().equals(UI.MENU_CLOSE)) {
-			close();
-		} else {
-			// do nothing
-		}
-	}
+    UI.centerWindowToScreen(this);
+
+  }
+
+  public final void clicked(ModernClickEvent e) {
+    if (e.getMessage().equals(UI.BUTTON_SIGN_IN)) {
+
+      try {
+        EDBLogin login = mLoginPanel.getLoginDetails();
+
+        MainManagerWindow mWindow = new MainManagerWindow(login);
+
+        mWindow.setVisible(true);
+      } catch (NumberFormatException e1) {
+        e1.printStackTrace();
+      } catch (UnsupportedEncodingException e1) {
+        e1.printStackTrace();
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      } catch (ClassNotFoundException e1) {
+        e1.printStackTrace();
+      }
+
+      close();
+    } else if (e.getMessage().equals(UI.MENU_CLOSE)) {
+      close();
+    } else {
+      // do nothing
+    }
+  }
 }

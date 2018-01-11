@@ -38,195 +38,196 @@ import edu.columbia.rdf.edb.manager.app.MainManagerWindow;
 
 public class GroupsPanel extends ModernPanel {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private Connection mConnection;
+  private Connection mConnection;
 
-	private ModernRowTable mTable = new GroupsTable();
+  private ModernRowTable mTable = new GroupsTable();
 
-	private ModernButton mNewButton = new ModernButton("New...");
+  private ModernButton mNewButton = new ModernButton("New...");
 
-	private ModernButton mEditButton = 
-			new ModernButton(UIService.getInstance().loadIcon("edit_bw", 16));
+  private ModernButton mEditButton = new ModernButton(
+      UIService.getInstance().loadIcon("edit_bw", 16));
 
-	private ModernButton mDeleteButton = 
-			new ModernButton(UIService.getInstance().loadIcon("trash_bw", 16));
+  private ModernButton mDeleteButton = new ModernButton(
+      UIService.getInstance().loadIcon("trash_bw", 16));
 
-	private MainManagerWindow mWindow;
+  private MainManagerWindow mWindow;
 
-	private SelectFromQuery mGroupsQuery;
+  private SelectFromQuery mGroupsQuery;
 
-	private WhereQuery mDeleteQuery;
+  private WhereQuery mDeleteQuery;
 
-	private TableQuery mQuery;
+  private TableQuery mQuery;
 
-	private SelectWhereQuery mGroupQuery;
+  private SelectWhereQuery mGroupQuery;
 
-	private WhereQuery mQueryUpdateName;
-	
-	private OrderByQuery mOrderQuery;
+  private WhereQuery mQueryUpdateName;
 
-	private InsertQuery mAddQuery;
+  private OrderByQuery mOrderQuery;
 
-	public GroupsPanel(Connection connection, MainManagerWindow window) throws SQLException {
-		mConnection = connection;
-		mWindow = window;
+  private InsertQuery mAddQuery;
 
-		Box box = HBox.create();
+  public GroupsPanel(Connection connection, MainManagerWindow window)
+      throws SQLException {
+    mConnection = connection;
+    mWindow = window;
 
-		box.add(mNewButton);
-		box.add(createHGap());
-		box.add(mEditButton);
-		box.add(createHGap());
-		box.add(mDeleteButton);
+    Box box = HBox.create();
 
-		box.setBorder(BorderService.getInstance().createTopBottomBorder(DOUBLE_PADDING));
+    box.add(mNewButton);
+    box.add(createHGap());
+    box.add(mEditButton);
+    box.add(createHGap());
+    box.add(mDeleteButton);
 
-		setHeader(box);
+    box.setBorder(
+        BorderService.getInstance().createTopBottomBorder(DOUBLE_PADDING));
 
-		ModernScrollPane scrollPane = new ModernScrollPane(mTable);
+    setHeader(box);
 
-		setBody(scrollPane);
+    ModernScrollPane scrollPane = new ModernScrollPane(mTable);
 
-		setBorder(BORDER);
+    setBody(scrollPane);
 
+    setBorder(BORDER);
 
+    mNewButton.addClickListener(new ModernClickListener() {
+      @Override
+      public void clicked(ModernClickEvent arg0) {
+        try {
+          create();
+        } catch (Exception e1) {
+          e1.printStackTrace();
 
-		mNewButton.addClickListener(new ModernClickListener() {
-			@Override
-			public void clicked(ModernClickEvent arg0) {
-				try {
-					create();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					
-					ModernMessageDialog.createDialog(mWindow, 
-							"There was an error adding the user", 
-							MessageDialogType.WARNING);
-				}
-			}});
-		
-		mEditButton.addClickListener(new ModernClickListener() {
-			@Override
-			public void clicked(ModernClickEvent e) {
-				try {
-					edit();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					
-					ModernMessageDialog.createDialog(mWindow, 
-							"There was an error editing the group", 
-							MessageDialogType.WARNING);
-				}
-			}});
+          ModernMessageDialog.createDialog(mWindow,
+              "There was an error adding the user",
+              MessageDialogType.WARNING);
+        }
+      }
+    });
 
-		mDeleteButton.addClickListener(new ModernClickListener() {
-			@Override
-			public void clicked(ModernClickEvent e) {
+    mEditButton.addClickListener(new ModernClickListener() {
+      @Override
+      public void clicked(ModernClickEvent e) {
+        try {
+          edit();
+        } catch (Exception e1) {
+          e1.printStackTrace();
 
-				mWindow.createOkCancelDialog("Are you sure you want to delete the selected groups?", 
-						new DialogEventListener() {
-					@Override
-					public void statusChanged(DialogEvent e) {
-						if (e.getStatus() == ModernDialogStatus.OK) {
-							try {
-								delete();
-							} catch (Exception e1) {
-								e1.printStackTrace();
+          ModernMessageDialog.createDialog(mWindow,
+              "There was an error editing the group",
+              MessageDialogType.WARNING);
+        }
+      }
+    });
 
-								mWindow.createDialog("There was an error deleting the groups", 
-										MessageDialogType.WARNING);
-							}
-						}
-					}});
-			}});
+    mDeleteButton.addClickListener(new ModernClickListener() {
+      @Override
+      public void clicked(ModernClickEvent e) {
 
-		mQuery = new TableQuery(mConnection);
+        mWindow.createOkCancelDialog(
+            "Are you sure you want to delete the selected groups?",
+            new DialogEventListener() {
+              @Override
+              public void statusChanged(DialogEvent e) {
+                if (e.getStatus() == ModernDialogStatus.OK) {
+                  try {
+                    delete();
+                  } catch (Exception e1) {
+                    e1.printStackTrace();
 
-		mGroupsQuery = mQuery.select("id",
-				"name")
-				.from("groups");
-		
-		mOrderQuery = mGroupsQuery.order("name");
-		
-		mGroupQuery = mGroupsQuery.where("id");
-		
-		mAddQuery = mQuery.insert("groups")
-				.cols("name");
+                    mWindow.createDialog(
+                        "There was an error deleting the groups",
+                        MessageDialogType.WARNING);
+                  }
+                }
+              }
+            });
+      }
+    });
 
-		
-		mQueryUpdateName = mQuery.update("groups").set("name").where("id");
-		
-		mDeleteQuery = mQuery.delete().from("groups").where("id");
+    mQuery = new TableQuery(mConnection);
 
-		refresh();
+    mGroupsQuery = mQuery.select("id", "name").from("groups");
 
-	}
+    mOrderQuery = mGroupsQuery.order("name");
 
-	private void refresh() throws SQLException {
-		System.err.println(mOrderQuery);
-		
-		DatabaseResultsTable results = mOrderQuery.fetch();
+    mGroupQuery = mGroupsQuery.where("id");
 
-		ModernDataModel model = new GroupsTableModel(results);
+    mAddQuery = mQuery.insert("groups").cols("name");
 
-		mTable.setModel(model);
-	}
-	
-	private void edit() throws SQLException, CryptographyException {
-		int index = mTable.getSelectionModel().first();
-		
-		if (index == -1) {
-			return;
-		}
-		
-		int id = mTable.getIntValueAt(index, 0);
-		
-		DatabaseResultsTable personTable = mGroupQuery.values(id).fetch();
-		
-		GroupDialog dialog = new GroupDialog(mWindow,
-				personTable);
+    mQueryUpdateName = mQuery.update("groups").set("name").where("id");
 
-		dialog.setVisible(true);
+    mDeleteQuery = mQuery.delete().from("groups").where("id");
 
-		if (dialog.getStatus() == ModernDialogStatus.CANCEL) {
-			return;
-		}
+    refresh();
 
-		mQueryUpdateName.values(dialog.getName(), id).execute();
-		
-		refresh();
-	}
+  }
 
-	private void create() throws SQLException, CryptographyException {
-		GroupDialog dialog = new GroupDialog(mWindow);
+  private void refresh() throws SQLException {
+    System.err.println(mOrderQuery);
 
-		dialog.setVisible(true);
+    DatabaseResultsTable results = mOrderQuery.fetch();
 
-		if (dialog.getStatus() == ModernDialogStatus.CANCEL) {
-			return;
-		}
-		
-		mAddQuery.values(dialog.getName()).execute();
+    ModernDataModel model = new GroupsTableModel(results);
 
-		refresh();
-	}
+    mTable.setModel(model);
+  }
 
-	private void delete() throws SQLException, ParseException {
-		List<Integer> rows = CollectionUtils.toList(mTable.getSelectionModel());
+  private void edit() throws SQLException, CryptographyException {
+    int index = mTable.getSelectionModel().first();
 
-		//PreparedStatement statement = mConnection.prepareStatement(DELETE_SQL);
+    if (index == -1) {
+      return;
+    }
 
-		for (int row : rows) {
-			int id = TextUtils.parseInt(mTable.getValueAt(row, 0).toString());
+    int id = mTable.getIntValueAt(index, 0);
 
-			ValuesQuery dq = mDeleteQuery.values(id);
+    DatabaseResultsTable personTable = mGroupQuery.values(id).fetch();
 
-			System.err.println(dq.getSql());
+    GroupDialog dialog = new GroupDialog(mWindow, personTable);
 
-			dq.execute();
-		}
+    dialog.setVisible(true);
 
-		refresh();
-	}
+    if (dialog.getStatus() == ModernDialogStatus.CANCEL) {
+      return;
+    }
+
+    mQueryUpdateName.values(dialog.getName(), id).execute();
+
+    refresh();
+  }
+
+  private void create() throws SQLException, CryptographyException {
+    GroupDialog dialog = new GroupDialog(mWindow);
+
+    dialog.setVisible(true);
+
+    if (dialog.getStatus() == ModernDialogStatus.CANCEL) {
+      return;
+    }
+
+    mAddQuery.values(dialog.getName()).execute();
+
+    refresh();
+  }
+
+  private void delete() throws SQLException, ParseException {
+    List<Integer> rows = CollectionUtils.toList(mTable.getSelectionModel());
+
+    // PreparedStatement statement = mConnection.prepareStatement(DELETE_SQL);
+
+    for (int row : rows) {
+      int id = TextUtils.parseInt(mTable.getValueAt(row, 0).toString());
+
+      ValuesQuery dq = mDeleteQuery.values(id);
+
+      System.err.println(dq.getSql());
+
+      dq.execute();
+    }
+
+    refresh();
+  }
 }

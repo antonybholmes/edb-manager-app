@@ -9,20 +9,20 @@ import edu.columbia.rdf.edb.manager.app.modules.EdbmModule;
 
 public class ExperimentsModule extends EdbmModule {
 
-	private ExperimentsPanel mPanel;
+  private ExperimentsPanel mPanel;
 
-	@Override
-	public void init(Connection connection, MainManagerWindow window) {
-		mPanel = new ExperimentsPanel(connection, window);
-	}
+  @Override
+  public void init(Connection connection, MainManagerWindow window) {
+    mPanel = new ExperimentsPanel(connection, window);
+  }
 
-	@Override
-	public ModernComponent getPanel() {
-		return mPanel;
-	}
+  @Override
+  public ModernComponent getPanel() {
+    return mPanel;
+  }
 
-	@Override
-	public String getName() {
-		return "Experiments";
-	}
+  @Override
+  public String getName() {
+    return "Experiments";
+  }
 }

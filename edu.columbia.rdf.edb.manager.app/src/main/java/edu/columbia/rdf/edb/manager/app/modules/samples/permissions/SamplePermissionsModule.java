@@ -10,24 +10,24 @@ import edu.columbia.rdf.edb.manager.app.modules.EdbmModule;
 
 public class SamplePermissionsModule extends EdbmModule {
 
-	private ExperimentPermissionsPanel mPanel;
+  private ExperimentPermissionsPanel mPanel;
 
-	@Override
-	public void init(Connection connection, MainManagerWindow window) {
-		try {
-			mPanel = new ExperimentPermissionsPanel(connection, window);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+  @Override
+  public void init(Connection connection, MainManagerWindow window) {
+    try {
+      mPanel = new ExperimentPermissionsPanel(connection, window);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
-	@Override
-	public ModernComponent getPanel() {
-		return mPanel;
-	}
+  @Override
+  public ModernComponent getPanel() {
+    return mPanel;
+  }
 
-	@Override
-	public String getName() {
-		return "Sample Permissions";
-	}
+  @Override
+  public String getName() {
+    return "Sample Permissions";
+  }
 }

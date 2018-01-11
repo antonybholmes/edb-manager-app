@@ -22,15 +22,15 @@ import org.jebtk.modern.graphics.icons.ModernApplicationIcon;
  * The Class MatCalcIcon.
  */
 public class ManagerIcon extends ModernApplicationIcon {
-	
-	/**
-	 * Instantiates a new mat calc icon.
-	 *
-	 * @param color1 the color 1
-	 * @param color2 the color 2
-	 * @param size the size
-	 */
-	public ManagerIcon() {
-		super("E", "m", ColorTheme.GREEN);
-	}
+
+  /**
+   * Instantiates a new mat calc icon.
+   *
+   * @param color1 the color 1
+   * @param color2 the color 2
+   * @param size the size
+   */
+  public ManagerIcon() {
+    super("E", "m", ColorTheme.GREEN);
+  }
 }

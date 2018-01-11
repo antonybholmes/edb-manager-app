@@ -5,12 +5,12 @@ import org.jebtk.modern.table.ModernTableCheckboxCellEditor;
 import org.jebtk.modern.table.ModernTableCheckboxCellRenderer;
 
 public class PersonGroupsTable extends ModernRowTable {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public PersonGroupsTable() {
-		getRendererModel().setCol(0, new ModernTableCheckboxCellRenderer());
-		getEditorModel().setCol(0, new ModernTableCheckboxCellEditor());
-		getColumnModel().setWidth(0, 32);
-		getColumnModel().setWidth(2, 300);
-	}
+  public PersonGroupsTable() {
+    getRendererModel().setCol(0, new ModernTableCheckboxCellRenderer());
+    getEditorModel().setCol(0, new ModernTableCheckboxCellEditor());
+    getColumnModel().setWidth(0, 32);
+    getColumnModel().setWidth(2, 300);
+  }
 }

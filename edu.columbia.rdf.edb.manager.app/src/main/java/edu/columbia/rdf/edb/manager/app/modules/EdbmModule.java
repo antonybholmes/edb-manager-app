@@ -6,8 +6,8 @@ import edu.columbia.rdf.edb.manager.app.ManagerInfo;
 
 public abstract class EdbmModule implements Module {
 
-	@Override
-	public GuiAppInfo getModuleInfo() {
-		return new ManagerInfo();
-	}
+  @Override
+  public GuiAppInfo getModuleInfo() {
+    return new ManagerInfo();
+  }
 }
