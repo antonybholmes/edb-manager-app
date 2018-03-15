@@ -177,7 +177,7 @@ public class PersonDialog extends ModernDialogTaskWindow
     matrixPanel.add(mGenKeyButton);
     box.add(matrixPanel);
 
-    setDialogCardContent(box);
+    setCard(box);
   }
 
   public String getFirstName() {

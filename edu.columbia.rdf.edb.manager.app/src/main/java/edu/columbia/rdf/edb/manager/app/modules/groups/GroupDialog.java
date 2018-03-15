@@ -79,7 +79,7 @@ public class GroupDialog extends ModernDialogTaskWindow
 
     box.add(matrixPanel);
 
-    setDialogCardContent(box);
+    setCard(box);
   }
 
   public String getName() {
