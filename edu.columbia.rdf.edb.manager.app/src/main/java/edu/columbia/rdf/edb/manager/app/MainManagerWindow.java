@@ -22,7 +22,6 @@ import org.jebtk.modern.UI;
 import org.jebtk.modern.UIService;
 import org.jebtk.modern.clipboard.ClipboardRibbonSection;
 import org.jebtk.modern.contentpane.ModernHContentPane;
-import org.jebtk.modern.contentpane.SizableContentPane;
 import org.jebtk.modern.event.ModernClickEvent;
 import org.jebtk.modern.event.ModernClickListener;
 import org.jebtk.modern.graphics.icons.RunVectorIcon;
@@ -33,6 +32,7 @@ import org.jebtk.modern.panel.CardPanel;
 import org.jebtk.modern.ribbon.RibbonLargeButton;
 import org.jebtk.modern.ribbon.RibbonMenuItem;
 import org.jebtk.modern.status.ModernStatusBar;
+import org.jebtk.modern.tabs.SizableTab;
 import org.jebtk.modern.tabs.TabsModel;
 import org.jebtk.modern.tabs.TabsViewPanel;
 import org.jebtk.modern.widget.ModernWidget;
@@ -429,21 +429,21 @@ public class MainManagerWindow extends ModernRibbonWindow
 
     mModulesPanel = new ModulesPanel(mTabsModel);
 
-    if (mContentPane.getModel().getLeftTabs().containsTab("Modules")) {
+    if (mContentPane.tabs().left().contains("Modules")) {
       return;
     }
 
-    SizableContentPane sizePane = new SizableContentPane("Modules",
+    SizableTab sizePane = new SizableTab("Modules",
         mModulesPanel, 300, 200, 600);
 
-    mContentPane.getModel().addLeftTab(sizePane);
+    mContentPane.tabs().addLeftTab(sizePane);
 
     ModernComponent tabsPanel = new ModernComponent(
         new CardPanel(
             new ModernComponent(mViewPanel, ModernWidget.DOUBLE_BORDER)),
         ModernWidget.DOUBLE_BORDER);
 
-    mContentPane.getModel().setCenterTab(tabsPanel);
+    mContentPane.tabs().setCenterTab(tabsPanel);
 
   }
 
