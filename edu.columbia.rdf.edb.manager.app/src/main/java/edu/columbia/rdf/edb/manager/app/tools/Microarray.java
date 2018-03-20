@@ -444,7 +444,7 @@ public class Microarray {
 
         Samples.createAlias(connection, sampleId, name);
 
-        Samples.createSamplePerson(connection, sampleId, personId, role);
+        //Samples.createSamplePerson(connection, sampleId, personId, role);
 
         addSampleSearchTerms(connection,
             sampleId,

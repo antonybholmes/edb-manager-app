@@ -44,7 +44,7 @@ public class LoginDetailsPanel extends MatrixPanel {
 
     mServerField.setText(login.getServer());
     mDbField.setText(login.getDb());
-    mUserField.setText(login.getUser());
+    mUserField.setText(login.getKey());
     mPasswordField.setText(login.getPassword());
   }
 

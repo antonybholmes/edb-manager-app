@@ -77,8 +77,6 @@ public class PersonsPanel extends ModernPanel {
 
   private OrderByQuery mOrderPersonsQuery;
 
-  private WhereQuery mQueryUpdateType;
-
   private WhereQuery mQueryPublicId;
 
   private WhereQuery mQuerySalt;
@@ -178,7 +176,6 @@ public class PersonsPanel extends ModernPanel {
 
     mPersonsQuery = mQuery.select("id",
         "public_uuid",
-        "user_type_id",
         "first_name",
         "last_name",
         "affiliation",
@@ -203,7 +200,6 @@ public class PersonsPanel extends ModernPanel {
         "phone",
         "address",
         "email",
-        "user_type_id",
         "password_hash_salted",
         "salt",
         "public_uuid",
@@ -222,7 +218,6 @@ public class PersonsPanel extends ModernPanel {
     mQueryUpdateAddress = mQuery.update("persons").set("address").where("id");
     mQueryUpdateEmail = mQuery.update("persons").set("email").where("id");
 
-    mQueryUpdateType = mQuery.update("persons").set("user_type_id").where("id");
     mQueryPublicId = mQuery.update("persons").set("public_uuid").where("id");
     mQuerySalt = mQuery.update("persons").set("salt").where("id");
     mQueryPassword = mQuery.update("persons").set("password_hash_salted")
@@ -274,8 +269,6 @@ public class PersonsPanel extends ModernPanel {
     if (!TextUtils.isNullOrEmpty(dialog.getPublicId())) {
       mQueryPublicId.values(dialog.getPublicId(), id).execute();
     }
-
-    mQueryUpdateType.values(dialog.getPersonType(), id).execute();
 
     if (!TextUtils.isNullOrEmpty(dialog.getPassword())) {
       mQueryPassword.values(

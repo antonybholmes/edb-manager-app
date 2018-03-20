@@ -7,7 +7,7 @@ import org.jebtk.database.DatabaseResultsTable;
 import edu.columbia.rdf.edb.manager.app.DatabaseTableModel;
 
 public class PersonsTableModel extends DatabaseTableModel {
-  public static final String[] HEADER = { "Id", "Public Id", "Type",
+  public static final String[] HEADER = { "Id", "Public Id",
       "First Name", "Last Name", "Affiliation", "Phone", "Address", "Email",
       "Salt", "API Key" };
 

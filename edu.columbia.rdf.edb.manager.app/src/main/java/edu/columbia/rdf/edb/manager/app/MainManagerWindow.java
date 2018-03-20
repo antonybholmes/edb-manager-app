@@ -436,7 +436,7 @@ public class MainManagerWindow extends ModernRibbonWindow
     SizableTab sizePane = new SizableTab("Modules",
         mModulesPanel, 300, 200, 600);
 
-    mContentPane.tabs().addLeftTab(sizePane);
+    mContentPane.tabs().left().add(sizePane);
 
     ModernComponent tabsPanel = new ModernComponent(
         new CardPanel(

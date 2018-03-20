@@ -57,7 +57,7 @@ public class MainManager {
     PluginService.getInstance().addPlugin(PersonsModule.class);
     PluginService.getInstance().addPlugin(PersonGroupsModule.class);
     PluginService.getInstance().addPlugin(ExperimentsModule.class);
-    PluginService.getInstance().addPlugin(ExperimentPermissionsModule.class);
+    //PluginService.getInstance().addPlugin(ExperimentPermissionsModule.class);
     PluginService.getInstance().addPlugin(SamplesModule.class);
     PluginService.getInstance().addPlugin(GroupsModule.class);
 

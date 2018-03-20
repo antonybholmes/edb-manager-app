@@ -1,6 +1,5 @@
 package edu.columbia.rdf.edb.manager.app.modules.persons;
 
-import java.awt.Dimension;
 import java.sql.SQLException;
 import java.text.ParseException;
 
@@ -100,7 +99,7 @@ public class PersonDialog extends ModernDialogTaskWindow
   private void setup() {
     mPublicIdField.setText(Cryptography.generateRandomId());
     mSaltField.setText(Cryptography.getSalt512());
-    mKeyField.setText(Cryptography.generateRandAlphaNumId64());
+    mKeyField.setText(Cryptography.generateRandAlphaNumId48());
 
     mPublicIdField.setEditable(false);
 
@@ -124,11 +123,11 @@ public class PersonDialog extends ModernDialogTaskWindow
 
       @Override
       public void clicked(ModernClickEvent e) {
-        mKeyField.setText(Cryptography.generateRandAlphaNumId64());
+        mKeyField.setText(Cryptography.generateRandAlphaNumId48());
       }
     });
 
-    setSize(new Dimension(900, 480));
+    setSize(900, 520);
 
     UI.centerWindowToScreen(this);
   }

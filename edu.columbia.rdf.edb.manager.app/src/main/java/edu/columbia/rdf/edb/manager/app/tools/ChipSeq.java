@@ -1617,8 +1617,9 @@ public class ChipSeq {
 
     Samples.createAlias(connection, sampleId, name);
 
-    Samples.createSamplePerson(connection, sampleId, person.getId(), role);
+    //Samples.createSamplePerson(connection, sampleId, person.getId(), role);
 
+    
     field = Tags.createTag(connection,
         Path.createRootPath("Sample", "Organism"));
 

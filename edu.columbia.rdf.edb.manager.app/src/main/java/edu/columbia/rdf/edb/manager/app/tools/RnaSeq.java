@@ -155,7 +155,7 @@ public class RnaSeq {
 
     Samples.createAlias(connection, sampleId, name);
 
-    Samples.createSamplePerson(connection, sampleId, person.getId(), role);
+    //Samples.createSamplePerson(connection, sampleId, person.getId(), role);
 
     field = Tags.createTag(connection, new Path("Sample", "Organism"));
 
