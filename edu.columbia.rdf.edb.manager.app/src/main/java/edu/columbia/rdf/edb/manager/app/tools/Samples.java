@@ -10,20 +10,15 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.jebtk.bioinformatics.annotation.Type;
-import org.jebtk.core.json.JsonBuilder;
-import org.jebtk.core.json.JsonObject;
-import org.jebtk.core.sys.SysUtils;
 import org.jebtk.database.DatabaseResultsTable;
 import org.jebtk.database.JDBCConnection;
 
-import edu.columbia.rdf.edb.http.DatabaseServlet;
-
 public class Samples {
-  private static final String JSON_SAMPLE_FIELDS_SQL = "INSERT INTO json_sample_fields (sample_id, json) VALUES ('a1', 'a2')";
+  //private static final String JSON_SAMPLE_FIELDS_SQL = "INSERT INTO json_sample_fields (sample_id, json) VALUES ('a1', 'a2')";
 
-  private static final String JSON_SAMPLE_GEO_SQL = "INSERT INTO json_sample_geo (sample_id, json) VALUES ('a1', 'a2')";
+  //private static final String JSON_SAMPLE_GEO_SQL = "INSERT INTO json_sample_geo (sample_id, json) VALUES ('a1', 'a2')";
 
-  private static final String JSON_SAMPLE_PERSONS_SQL = "INSERT INTO json_sample_persons (sample_id, json) VALUES ('a1', 'a2')";
+  //private static final String JSON_SAMPLE_PERSONS_SQL = "INSERT INTO json_sample_persons (sample_id, json) VALUES ('a1', 'a2')";
 
   public static Type createExpressionType(Connection connection, String name)
       throws SQLException, ParseException {
@@ -410,6 +405,7 @@ public class Samples {
         platform);
   }
 
+  /*
   public static void sampleJson(Connection connection) throws SQLException {
 
     PreparedStatement statement = connection
@@ -452,7 +448,9 @@ public class Samples {
       // break;
     }
   }
+  */
 
+  /*
   public static void sampleGeoJson(Connection connection) throws SQLException {
     PreparedStatement statement = connection
         .prepareStatement("delete from json_sample_geo");
@@ -493,7 +491,9 @@ public class Samples {
       // break;
     }
   }
+  */
 
+  /*
   public static void samplePersonsJson(Connection connection)
       throws SQLException {
     PreparedStatement statement = connection
@@ -535,4 +535,5 @@ public class Samples {
       // break;
     }
   }
+  */
 }
