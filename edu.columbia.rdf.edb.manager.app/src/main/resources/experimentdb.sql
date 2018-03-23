@@ -312,6 +312,19 @@ ALTER TABLE sample_files ADD CONSTRAINT sample_vfs_unique UNIQUE (sample_id, vfs
 CREATE INDEX sample_files_sample_id_index ON sample_files (sample_id);
 CREATE INDEX sample_files_vfs_id_index ON sample_files (vfs_id);
 
+
+DROP TABLE IF EXISTS chipseq_peak_json CASCADE;
+CREATE TABLE chipseq_peak_json (id SERIAL NOT NULL PRIMARY KEY,
+sample_id INTEGER NOT NULL,
+vfs_id INTEGER NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE chipseq_peak_json ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
+ALTER TABLE chipseq_peak_json ADD FOREIGN KEY (vfs_id) REFERENCES vfs(id) ON DELETE CASCADE;
+ALTER TABLE chipseq_peak_json ADD CONSTRAINT sample_vfs_unique UNIQUE (sample_id, vfs_id);
+CREATE INDEX chipseq_peak_json_sample_id_index ON chipseq_peak_json (sample_id);
+CREATE INDEX chipseq_peak_json_vfs_id_index ON chipseq_peak_json (vfs_id);
+
+
 -- tags
 
 DROP TABLE IF EXISTS tags CASCADE;
@@ -488,19 +501,17 @@ ALTER TABLE chip_seq_reads ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
 ALTER TABLE chip_seq_reads ADD FOREIGN KEY (genome_id) REFERENCES genomes(id);
 CREATE INDEX chip_seq_reads_sample_id_index ON chip_seq_reads (sample_id);
 
-DROP TABLE IF EXISTS json_chip_seq_peaks CASCADE;
-CREATE TABLE json_chip_seq_peaks (id SERIAL NOT NULL PRIMARY KEY, 
+DROP TABLE IF EXISTS chipseq_peaks CASCADE;
+CREATE TABLE chipseq_peaks (id SERIAL NOT NULL PRIMARY KEY, 
 sample_id INTEGER NOT NULL,
 name varchar(255) NOT NULL UNIQUE,
-genome varchar(5) NOT NULL,
-read_length INTEGER NOT NULL,
-peak_caller varchar(255),
-peak_caller_parameters varchar(255),
+genome varchar(10) NOT NULL,
+parameters json,
 json json NOT NULL,
 created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE json_chip_seq_peaks ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
-CREATE INDEX json_chip_seq_name_index ON json_chip_seq_peaks(name varchar_pattern_ops);
-CREATE INDEX json_chip_seq_genome_index ON json_chip_seq_peaks(genome varchar_pattern_ops);
+ALTER TABLE chipseq_peaks ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
+CREATE INDEX chipseq_peaks_name_index ON chipseq_peaks(name varchar_pattern_ops);
+CREATE INDEX chipseq_peaks_genome_index ON chipseq_peaks(genome varchar_pattern_ops);
 
 
 
