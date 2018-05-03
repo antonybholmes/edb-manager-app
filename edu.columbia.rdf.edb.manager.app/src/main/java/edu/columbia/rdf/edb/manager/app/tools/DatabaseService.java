@@ -32,7 +32,7 @@ public class DatabaseService {
       throws SQLException, ClassNotFoundException {
     return getConnection(login.getServer(),
         login.getDb(),
-        login.getKey(),
+        login.getUser(),
         login.getPassword());
   }
 

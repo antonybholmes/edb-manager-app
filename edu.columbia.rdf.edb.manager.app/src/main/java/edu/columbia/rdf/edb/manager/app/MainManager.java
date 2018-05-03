@@ -18,8 +18,8 @@ import org.jebtk.modern.help.GuiAppInfo;
 import org.jebtk.modern.theme.ThemeService;
 import org.xml.sax.SAXException;
 
+import edu.columbia.rdf.edb.EDBWLogin;
 import edu.columbia.rdf.edb.manager.app.modules.experiments.ExperimentsModule;
-import edu.columbia.rdf.edb.manager.app.modules.experiments.permissions.ExperimentPermissionsModule;
 import edu.columbia.rdf.edb.manager.app.modules.groups.GroupsModule;
 import edu.columbia.rdf.edb.manager.app.modules.persons.PersonsModule;
 import edu.columbia.rdf.edb.manager.app.modules.persons.groups.PersonGroupsModule;
@@ -46,9 +46,9 @@ public class MainManager {
 
     // Network.disableSLLChecks();
 
-    GuiAppInfo appInfo = new ManagerInfo();
-
-    EDBLogin login = new EDBLogin(
+    EDBWLogin l = EDBWLogin.loadFromSettings();
+    
+    EDBLogin login = new EDBLogin(l,
         SettingsService.getInstance().getAsString("edb.manager.server"),
         SettingsService.getInstance().getAsString("edb.manager.db"),
         SettingsService.getInstance().getAsString("edb.manager.user"),
@@ -66,7 +66,11 @@ public class MainManager {
     // VFS.createVfsPermissions(connection, 6);
     // connection.close();
 
-    ManagerLoginDialog window = new ManagerLoginDialog(login, appInfo);
+    //ManagerLoginDialog window = new ManagerLoginDialog(login, appInfo);
+
+    //window.setVisible(true);
+    
+    MainManagerWindow window = new MainManagerWindow(login);
 
     window.setVisible(true);
   }

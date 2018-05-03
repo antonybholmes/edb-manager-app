@@ -47,7 +47,6 @@ import edu.columbia.rdf.edb.manager.app.tools.EDBLogin;
 import edu.columbia.rdf.edb.manager.app.tools.Experiments;
 import edu.columbia.rdf.edb.manager.app.tools.Microarray;
 import edu.columbia.rdf.edb.manager.app.tools.RnaSeq;
-import edu.columbia.rdf.edb.manager.app.tools.Samples;
 import edu.columbia.rdf.edb.manager.app.tools.VFS;
 
 public class MainManagerWindow extends ModernRibbonWindow
@@ -220,22 +219,6 @@ public class MainManagerWindow extends ModernRibbonWindow
 
     getRibbon().getHomeToolbar().getSection("Tools").add(button);
 
-    button = new RibbonLargeButton("JSON",
-        UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
-    button.addClickListener(new ModernClickListener() {
-
-      @Override
-      public void clicked(ModernClickEvent e) {
-        try {
-          json();
-        } catch (SQLException e1) {
-          e1.printStackTrace();
-        }
-      }
-    });
-
-    getRibbon().getHomeToolbar().getSection("Tools").add(button);
-
     button = new RibbonLargeButton("Peaks",
         UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
     button.addClickListener(new ModernClickListener() {
@@ -315,10 +298,11 @@ public class MainManagerWindow extends ModernRibbonWindow
     RecentFilesService.getInstance().setPwd(dir);
   }
 
-  public void json() throws SQLException {
-    sampleJson();
-  }
+  //public void json() throws SQLException {
+  //  sampleJson();
+  //}
 
+  /*
   public void sampleJson() throws SQLException {
 
     Connection connection = DatabaseService.getConnection();
@@ -331,6 +315,7 @@ public class MainManagerWindow extends ModernRibbonWindow
       connection.close();
     }
   }
+  */
 
   public void loadPeaksJson() throws SQLException, IOException {
 

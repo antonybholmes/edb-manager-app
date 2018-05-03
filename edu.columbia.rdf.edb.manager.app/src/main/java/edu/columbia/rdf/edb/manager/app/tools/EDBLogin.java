@@ -1,7 +1,5 @@
 package edu.columbia.rdf.edb.manager.app.tools;
 
-import java.io.UnsupportedEncodingException;
-
 import org.slf4j.LoggerFactory;
 
 import edu.columbia.rdf.edb.EDBWLogin;
@@ -11,23 +9,24 @@ import edu.columbia.rdf.edb.EDBWLogin;
  *
  * @author Antony Holmes Holmes
  */
-public class EDBLogin extends EDBWLogin {
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-
+public class EDBLogin {
   private String mDb = null;
   private String mPassword = null;
+
+  private String mServer;
+
+  private EDBWLogin mLogin;
+  private String mUser;
 
   private static final org.slf4j.Logger LOG = LoggerFactory
       .getLogger(EDBLogin.class);
 
-  public EDBLogin(String server, String db, String user, String password)
-      throws UnsupportedEncodingException {
-    super(server, user, null, null, -1, -1);
+  public EDBLogin(EDBWLogin l, String server, String db, String user, String password) {
+    mLogin = l;
 
     mDb = db;
+    mServer = server;
+    mUser = user;
     mPassword = password;
   }
 
@@ -37,5 +36,17 @@ public class EDBLogin extends EDBWLogin {
 
   public String getPassword() {
     return mPassword;
+  }
+  
+  public String getServer() {
+    return mServer;
+  }
+  
+  public String getUser() {
+    return mUser;
+  }
+  
+  public EDBWLogin getLogin() {
+    return mLogin;
   }
 }
