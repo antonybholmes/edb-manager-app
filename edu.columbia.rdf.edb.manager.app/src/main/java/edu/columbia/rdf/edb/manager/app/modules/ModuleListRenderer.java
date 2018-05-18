@@ -23,10 +23,10 @@ public class ModuleListRenderer extends ModernListCellRenderer {
   private int mRow;
 
   public static final Color LINE_COLOR = ThemeService.getInstance().colors()
-      .getHighlight(2);
+      .getGray(2);
 
   public static final Color COLOR = ThemeService.getInstance().colors()
-      .getHighlight(6);
+      .getGray(6);
 
   private static final int NUM_WIDTH = 20;
 
