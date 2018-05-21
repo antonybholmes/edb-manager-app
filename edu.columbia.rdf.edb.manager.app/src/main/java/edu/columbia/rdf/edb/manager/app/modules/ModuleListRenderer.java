@@ -22,10 +22,10 @@ public class ModuleListRenderer extends ModernListCellRenderer {
   private String mText = "";
   private int mRow;
 
-  public static final Color LINE_COLOR = ThemeService.getInstance().colors()
+  public static final Color LINE_COLOR = ThemeService.getInstance().getColors()
       .getGray(2);
 
-  public static final Color COLOR = ThemeService.getInstance().colors()
+  public static final Color COLOR = ThemeService.getInstance().getColors()
       .getGray(6);
 
   private static final int NUM_WIDTH = 20;

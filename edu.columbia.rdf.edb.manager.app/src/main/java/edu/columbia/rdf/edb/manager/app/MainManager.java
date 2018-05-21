@@ -49,10 +49,10 @@ public class MainManager {
     EDBWLogin l = EDBWLogin.loadFromSettings();
     
     EDBLogin login = new EDBLogin(l,
-        SettingsService.getInstance().getAsString("edb.manager.server"),
-        SettingsService.getInstance().getAsString("edb.manager.db"),
-        SettingsService.getInstance().getAsString("edb.manager.user"),
-        SettingsService.getInstance().getAsString("edb.manager.password"));
+        SettingsService.getInstance().getString("edb.manager.server"),
+        SettingsService.getInstance().getString("edb.manager.db"),
+        SettingsService.getInstance().getString("edb.manager.user"),
+        SettingsService.getInstance().getString("edb.manager.password"));
 
     PluginService.getInstance().addPlugin(PersonsModule.class);
     PluginService.getInstance().addPlugin(PersonGroupsModule.class);

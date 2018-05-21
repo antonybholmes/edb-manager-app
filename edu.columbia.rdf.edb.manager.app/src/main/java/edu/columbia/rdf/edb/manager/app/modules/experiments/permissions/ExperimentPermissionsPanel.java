@@ -20,7 +20,7 @@ import org.jebtk.database.query.ValuesQuery;
 import org.jebtk.database.query.WhereQuery;
 import org.jebtk.modern.BorderService;
 import org.jebtk.modern.UI;
-import org.jebtk.modern.UIService;
+import org.jebtk.modern.AssetService;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.dialog.MessageDialogType;
 import org.jebtk.modern.dialog.ModernMessageDialog;
@@ -46,7 +46,7 @@ public class ExperimentPermissionsPanel extends ModernPanel {
   private ModernButton mNewButton = new ModernButton("New...");
 
   private ModernButton mUpdateButton = new ModernButton("Update",
-      UIService.getInstance().loadIcon(RunVectorIcon.class, 16));
+      AssetService.getInstance().loadIcon(RunVectorIcon.class, 16));
 
   private ModernButton mSelectAllButton = new ModernButton("Select All");
 

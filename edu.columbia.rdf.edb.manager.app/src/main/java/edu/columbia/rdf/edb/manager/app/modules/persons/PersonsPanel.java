@@ -20,7 +20,7 @@ import org.jebtk.database.query.TableQuery;
 import org.jebtk.database.query.ValuesQuery;
 import org.jebtk.database.query.WhereQuery;
 import org.jebtk.modern.BorderService;
-import org.jebtk.modern.UIService;
+import org.jebtk.modern.AssetService;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.dataview.ModernDataModel;
 import org.jebtk.modern.dialog.DialogEvent;
@@ -48,10 +48,10 @@ public class PersonsPanel extends ModernPanel {
   private ModernButton mNewButton = new ModernButton("New...");
 
   private ModernButton mEditButton = new ModernButton(
-      UIService.getInstance().loadIcon("edit_bw", 16));
+      AssetService.getInstance().loadIcon("edit_bw", 16));
 
   private ModernButton mDeleteButton = new ModernButton(
-      UIService.getInstance().loadIcon("trash_bw", 16));
+      AssetService.getInstance().loadIcon("trash_bw", 16));
 
   private MainManagerWindow mWindow;
 

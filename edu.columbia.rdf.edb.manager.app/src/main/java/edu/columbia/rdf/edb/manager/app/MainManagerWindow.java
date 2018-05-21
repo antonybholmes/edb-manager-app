@@ -19,7 +19,7 @@ import org.jebtk.core.io.Temp;
 import org.jebtk.database.JDBCConnection;
 import org.jebtk.modern.ModernComponent;
 import org.jebtk.modern.UI;
-import org.jebtk.modern.UIService;
+import org.jebtk.modern.AssetService;
 import org.jebtk.modern.clipboard.ClipboardRibbonSection;
 import org.jebtk.modern.contentpane.ModernHContentPane;
 import org.jebtk.modern.event.ModernClickEvent;
@@ -142,7 +142,7 @@ public class MainManagerWindow extends ModernRibbonWindow
      */
 
     RibbonLargeButton button = new RibbonLargeButton("VFS",
-        UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
+        AssetService.getInstance().loadIcon(RunVectorIcon.class, 24));
     button.addClickListener(new ModernClickListener() {
 
       @Override
@@ -162,7 +162,7 @@ public class MainManagerWindow extends ModernRibbonWindow
     // getRibbon().getHomeToolbar().getSection("Tools").add(button);
 
     button = new RibbonLargeButton("Microarray",
-        UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
+        AssetService.getInstance().loadIcon(RunVectorIcon.class, 24));
     button.addClickListener(new ModernClickListener() {
 
       @Override
@@ -181,7 +181,7 @@ public class MainManagerWindow extends ModernRibbonWindow
     getRibbon().getHomeToolbar().getSection("Tools").add(button);
 
     button = new RibbonLargeButton("ChIP-seq",
-        UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
+        AssetService.getInstance().loadIcon(RunVectorIcon.class, 24));
     button.addClickListener(new ModernClickListener() {
 
       @Override
@@ -200,7 +200,7 @@ public class MainManagerWindow extends ModernRibbonWindow
     getRibbon().getHomeToolbar().getSection("Tools").add(button);
 
     button = new RibbonLargeButton("RNA-seq",
-        UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
+        AssetService.getInstance().loadIcon(RunVectorIcon.class, 24));
     button.addClickListener(new ModernClickListener() {
 
       @Override
@@ -220,7 +220,7 @@ public class MainManagerWindow extends ModernRibbonWindow
     getRibbon().getHomeToolbar().getSection("Tools").add(button);
 
     button = new RibbonLargeButton("Peaks",
-        UIService.getInstance().loadIcon(RunVectorIcon.class, 24));
+        AssetService.getInstance().loadIcon(RunVectorIcon.class, 24));
     button.addClickListener(new ModernClickListener() {
 
       @Override
