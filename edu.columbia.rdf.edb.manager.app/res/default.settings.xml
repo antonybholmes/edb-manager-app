@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-	<setting name="edb.manager.server" value="156.145.14.157"/>
-	<setting name="edb.manager.db" value="caarraydb"/>
-	<setting name="edb.manager.user" value="caarray"/>
-	<setting name="edb.manager.password" value="TwinkleToe007"/>
-	<setting name="edbw.server" value="http://156.145.14.157:8080/edbw7"/>
-  <setting name="edbw.key" value="yLBctUKZrtChaD8hVE7nKw8DVpESnqcsVckHCrvZvRhXSL6p"/>
-  <setting name="edbw.totp" value="96G71a5dmVHMVFBaToHvHuFMGvyviRsAvEPE5oo5uIvf7Oaz:0:3600000"/>
+	<setting name="edb.manager.server" value="156.145.14.157" />
+	<setting name="edb.manager.db" value="caarraydb" />
+	<setting name="edb.manager.user" value="caarray" />
+	<setting name="edb.manager.password" value="TwinkleToe007" />
+
+	<setting name="edbw.server" value="http://156.145.14.157:8080/edbw7" />
+	<setting name="edbw.key"
+		value="yLBctUKZrtChaD8hVE7nKw8DVpESnqcsVckHCrvZvRhXSL6p" />
+	<setting name="edbw.totp"
+		value="96G71a5dmVHMVFBaToHvHuFMGvyviRsAvEPE5oo5uIvf7Oaz:0:3600000" />
 </settings>

@@ -1617,7 +1617,7 @@ public class ChipSeq {
 
     Samples.createAlias(connection, sampleId, name);
 
-    //Samples.createSamplePerson(connection, sampleId, person.getId(), role);
+    Samples.createSamplePerson(connection, sampleId, person.getId(), role);
 
     
     field = Tags.createTag(connection,
@@ -1871,8 +1871,8 @@ public class ChipSeq {
       reader.close();
     }
 
-    ExperimentPermissions.main(null);
-    SamplePermissions.main(null);
+    //ExperimentPermissions.main(null);
+    //SamplePermissions.main(null);
   }
 
   private static void createPeakInfo(Connection connection,

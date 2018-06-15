@@ -57,34 +57,42 @@ public class Samples {
      */
   }
 
-  /*
-   * public static int createSamplePerson(Connection connection, int sampleId,
-   * int personId, Type role) throws SQLException, ParseException {
-   * PreparedStatement statement = connection.
-   * prepareStatement("SELECT sample_persons.id FROM sample_persons WHERE sample_persons.sample_id = ? AND sample_persons.person_id = ? AND sample_persons.role_id = ?"
-   * );
-   * 
-   * DatabaseResultsTable table;
-   * 
-   * try { statement.setInt(1, sampleId); statement.setInt(2, personId);
-   * statement.setInt(3, role.getId());
-   * 
-   * table = JDBCConnection.getTable(statement); } finally { statement.close();
-   * }
-   * 
-   * if (table.getRowCount() == 1) { return table.getInt(0, 0); }
-   * 
-   * statement = connection.
-   * prepareStatement("INSERT INTO sample_persons (sample_id, person_id, role_id) VALUES (?, ?, ?)"
-   * );
-   * 
-   * try { statement.setInt(1, sampleId); statement.setInt(2, personId);
-   * statement.setInt(3, role.getId());
-   * 
-   * statement.execute(); } finally { statement.close(); }
-   * 
-   * return createSamplePerson(connection, sampleId, personId, role); }
-   */
+  public static int createSamplePerson(Connection connection, 
+      int sampleId,
+      int personId, 
+      Type role) throws SQLException {
+    PreparedStatement statement = connection.
+        prepareStatement("SELECT sample_persons.id FROM sample_persons WHERE sample_persons.sample_id = ? AND sample_persons.person_id = ? AND sample_persons.role_id = ?");
+
+    DatabaseResultsTable table;
+
+    try { 
+      statement.setInt(1, sampleId); statement.setInt(2, personId);
+      statement.setInt(3, role.getId());
+
+      table = JDBCConnection.getTable(statement); 
+    } finally { 
+      statement.close();
+    }
+
+    if (table.getRowCount() == 1) { 
+      return table.getInt(0, 0);
+    }
+
+    statement = connection.
+        prepareStatement("INSERT INTO sample_persons (sample_id, person_id, role_id) VALUES (?, ?, ?)");
+
+    try { 
+      statement.setInt(1, sampleId); statement.setInt(2, personId);
+      statement.setInt(3, role.getId());
+
+      statement.execute(); 
+    } finally { 
+      statement.close(); 
+    }
+
+    return createSamplePerson(connection, sampleId, personId, role);
+  }
 
   public static int createSampleTag(Connection connection,
       int sampleId,
@@ -237,7 +245,7 @@ public class Samples {
         name,
         organismId,
         new SimpleDateFormat("yyyy-MM-dd")
-            .format(Calendar.getInstance().getTime()));
+        .format(Calendar.getInstance().getTime()));
   }
 
   public static int createSample(Connection connection,
@@ -448,7 +456,7 @@ public class Samples {
       // break;
     }
   }
-  */
+   */
 
   /*
   public static void sampleGeoJson(Connection connection) throws SQLException {
@@ -491,7 +499,7 @@ public class Samples {
       // break;
     }
   }
-  */
+   */
 
   /*
   public static void samplePersonsJson(Connection connection)
@@ -535,5 +543,5 @@ public class Samples {
       // break;
     }
   }
-  */
+   */
 }

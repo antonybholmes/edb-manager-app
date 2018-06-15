@@ -46,6 +46,8 @@ public class MainManager {
 
     // Network.disableSLLChecks();
 
+    System.err.println("block " + SettingsService.getInstance().getString("edb.manager.server"));
+    
     EDBWLogin l = EDBWLogin.loadFromSettings();
     
     EDBLogin login = new EDBLogin(l,
@@ -69,6 +71,8 @@ public class MainManager {
     //ManagerLoginDialog window = new ManagerLoginDialog(login, appInfo);
 
     //window.setVisible(true);
+    
+    System.err.println(SettingsService.getInstance().getString("edb.manager.server"));
     
     MainManagerWindow window = new MainManagerWindow(login);
 
