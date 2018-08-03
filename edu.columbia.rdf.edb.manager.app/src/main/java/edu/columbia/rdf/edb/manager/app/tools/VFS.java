@@ -370,6 +370,48 @@ public class VFS {
       }
     }
   }
+  
+  
+  public static int createSampleGenomeFile(Connection connection, 
+      int sampleId,
+      int genomeId,
+      int vfsId)
+      throws SQLException {
+    String sql = "SELECT sample_genome_files.id FROM sample_genome_files WHERE sample_genome_files.sample_id = ? AND sample_genome_files.genome_id = ? AND sample_genome_files.vfs_id = ?";
+
+    PreparedStatement statement = connection.prepareStatement(sql);
+
+    DatabaseResultsTable table;
+
+    try {
+      statement.setInt(1, sampleId);
+      statement.setInt(2, genomeId);
+      statement.setInt(3, vfsId);
+      
+      table = JDBCConnection.getTable(statement);
+    } finally {
+      statement.close();
+    }
+
+    if (table.getRowCount() == 1) {
+      return table.getInt(0, 0);
+    }
+
+    sql = "INSERT INTO sample_genome_files (sample_id, genome_id, vfs_id) VALUES (?, ?, ?)";
+
+    statement = connection.prepareStatement(sql);
+
+    try {
+      statement.setInt(1, sampleId);
+      statement.setInt(2, genomeId);
+      statement.setInt(3, vfsId);
+      statement.execute();
+    } finally {
+      statement.close();
+    }
+
+    return createSampleGenomeFile(connection, sampleId, genomeId, vfsId);
+  }
 
   /*
    * public static int createVfsField(Connection connection, int sampleId, Type

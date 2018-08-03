@@ -552,6 +552,26 @@ created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 CREATE INDEX search_keywords_name_index ON keywords(lower(name) varchar_pattern_ops);
 
 
+DROP TABLE IF EXISTS genomes CASCADE;
+CREATE TABLE genomes (id SERIAL NOT NULL PRIMARY KEY, 
+name varchar(255) NOT NULL UNIQUE,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+CREATE INDEX genomes_name_index ON genomes(lower(name) varchar_pattern_ops);
+
+
+DROP TABLE IF EXISTS sample_genome_files CASCADE;
+CREATE TABLE sample_genome_files (id SERIAL NOT NULL PRIMARY KEY, 
+sample_id INTEGER NOT NULL,
+genome_id INTEGER NOT NULL,
+vfs_id INTEGER NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE sample_genome_files ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
+ALTER TABLE sample_genome_files ADD FOREIGN KEY (genome_id) REFERENCES genomes(id);
+ALTER TABLE sample_genome_files ADD FOREIGN KEY (vfs_id) REFERENCES vfs(id);
+CREATE INDEX sample_genome_files_sample_id_index ON sample_genome_files (sample_id);
+CREATE INDEX sample_genome_files_genome_id_index ON sample_genome_files (genome_id);
+CREATE INDEX sample_genome_files_vfs_id_index ON sample_genome_files (vfs_id);
+
 --- Link categories to words ---
 
 
@@ -576,3 +596,9 @@ INSERT INTO providers (name) VALUES ('Illumina');
 
 DELETE FROM assays;
 INSERT INTO assays (name) VALUES ('Gene Expression');
+
+DELETE FROM genomes;
+INSERT INTO genomes (name, db) VALUES ('hg19', 'UCSC');
+INSERT INTO genomes (name, db) VALUES ('mm10', 'UCSC');
+INSERT INTO genomes (name, db) VALUES ('GRCh38', 'GENCODE');
+INSERT INTO genomes (name, db) VALUES ('GRCm38', 'GENCODE');

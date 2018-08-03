@@ -47,6 +47,8 @@ public class Types {
         .append(type).append(".name FROM ").append(type).append(" WHERE ")
         .append(type).append(".name = ?").toString();
 
+    
+    
     PreparedStatement statement = connection.prepareStatement(sql);
 
     DatabaseResultsTable table;
@@ -54,6 +56,8 @@ public class Types {
     try {
       statement.setString(1, name);
 
+      System.err.println(statement);
+      
       table = JDBCConnection.getTable(statement);
     } finally {
       statement.close();
@@ -66,12 +70,12 @@ public class Types {
     sql = new StringBuilder().append("INSERT INTO ").append(type)
         .append(" (name) VALUES (?)").toString();
 
-    // System.err.println(sql);
-
     statement = connection.prepareStatement(sql);
 
     try {
       statement.setString(1, name);
+      
+      System.err.println(statement);
 
       statement.execute();
     } finally {

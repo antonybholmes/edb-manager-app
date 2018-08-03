@@ -1595,7 +1595,7 @@ public class ChipSeq {
       Person person,
       String releaseDate) throws SQLException, IOException, ParseException {
 
-    Type expressionType = Samples.createExpressionType(connection, "ChIP-Seq");
+    Type expressionType = Samples.createDataType(connection, "ChIP-Seq");
 
     Type experimentField = Tags.createTag(connection,
         Path.createRootPath("Experiment", "Name"));

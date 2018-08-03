@@ -50,7 +50,7 @@ public class Microarray {
       Person personId;
       Type role;
 
-      expressionType = Samples.createExpressionType(connection, "Microarray");
+      expressionType = Samples.createDataType(connection, "Microarray");
 
       //
       // Human experiments
@@ -356,7 +356,7 @@ public class Microarray {
 
     java.nio.file.Path sdrfFile = dir.resolve("data.sdrf");
 
-    Type expressionType = Samples.createExpressionType(connection,
+    Type expressionType = Samples.createDataType(connection,
         "Microarray");
 
     createSamplesFromSDRF(connection,

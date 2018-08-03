@@ -20,9 +20,9 @@ public class Samples {
 
   //private static final String JSON_SAMPLE_PERSONS_SQL = "INSERT INTO json_sample_persons (sample_id, json) VALUES ('a1', 'a2')";
 
-  public static Type createExpressionType(Connection connection, String name)
+  public static Type createDataType(Connection connection, String name)
       throws SQLException, ParseException {
-    return Types.createType(connection, "expression_types", name);
+    return Types.createType(connection, "data_types", name);
   }
 
   public static void keywordIndexAttribute(Connection connection,

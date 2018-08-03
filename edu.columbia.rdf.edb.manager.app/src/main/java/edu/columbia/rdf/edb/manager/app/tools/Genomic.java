@@ -3,7 +3,6 @@ package edu.columbia.rdf.edb.manager.app.tools;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.ParseException;
 
 import org.jebtk.bioinformatics.annotation.Type;
 import org.jebtk.database.DatabaseResultsTable;
@@ -23,23 +22,58 @@ public class Genomic {
       }
     } catch (SQLException e) {
       e.printStackTrace();
-    } catch (ParseException e) {
-      e.printStackTrace();
     }
   }
 
   public static Type createGenome(Connection connection, String name)
-      throws SQLException, ParseException {
-    return Types.createType(connection, "genomes", name.toLowerCase());
+      throws SQLException {
+    return Types.createType(connection, "genomes", name);
+    
+    /*
+    String sql = "SELECT genome.id, genome.name FROM genomes WHERE genome.name = ?";
+
+    PreparedStatement statement = connection.prepareStatement(sql);
+
+    DatabaseResultsTable table;
+
+    try {
+      statement.setString(1, name);
+      statement.setString(2, db);
+
+      table = JDBCConnection.getTable(statement);
+    } finally {
+      statement.close();
+    }
+
+    if (table.getRowCount() == 1) {
+      return new Type(table.getInt(0, 0), table.getString(0, 1));
+    }
+
+    sql = "INSERT INTO genomes (name, db) VALUES (?, ?)";
+
+    // System.err.println(sql);
+
+    statement = connection.prepareStatement(sql);
+
+    try {
+      statement.setString(1, name);
+      statement.setString(2, db);
+      statement.execute();
+    } finally {
+      statement.close();
+    }
+
+    return createGenome(connection, name, db);
+    */
   }
 
   public static Type createChromosome(Connection connection, String name)
-      throws SQLException, ParseException {
+      throws SQLException {
     return Types.createType(connection, "chromosomes", name.toLowerCase());
   }
 
   public static Type createGene(Connection connection, String name)
-      throws SQLException, ParseException {
+      throws SQLException {
 
     return Types.createType(connection, "genes", name.toUpperCase());
   }
@@ -52,7 +86,7 @@ public class Genomic {
       int end,
       String locus,
       int genomeId,
-      double fpkm) throws SQLException, ParseException {
+      double fpkm) throws SQLException {
     PreparedStatement statement = connection.prepareStatement(
         "SELECT rna_seq.id FROM rna_seq WHERE rna_seq.sample_id = ? AND rna_seq.gene_id = ? AND rna_seq.locus = ?");
 

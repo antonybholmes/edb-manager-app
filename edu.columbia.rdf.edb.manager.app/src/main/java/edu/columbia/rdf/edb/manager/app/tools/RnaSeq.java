@@ -12,6 +12,7 @@ import org.jebtk.bioinformatics.annotation.Type;
 import org.jebtk.core.io.FileUtils;
 import org.jebtk.core.io.PathUtils;
 import org.jebtk.core.path.Path;
+import org.jebtk.core.path.RootPath;
 import org.jebtk.core.text.Parser;
 import org.jebtk.core.text.TextUtils;
 
@@ -57,7 +58,7 @@ public class RnaSeq {
       Experiment experiment,
       Person person,
       int exVfsId)
-      throws SQLException, IOException, SQLException, ParseException {
+          throws SQLException, IOException, SQLException, ParseException {
     BufferedReader reader = FileUtils.newBufferedReader(sdrfFile);
 
     String line;
@@ -89,9 +90,7 @@ public class RnaSeq {
         int readLength = Parser
             .toInt(tokens.get(TextUtils.findFirst(header, "Read Length")));
 
-        java.nio.file.Path dataDir = PathUtils.getPath(
-            tokens.get(TextUtils.findFirst(header, "Raw Data Directory")),
-            name);
+
 
         int sampleId = createRnaSeqSample(connection,
             experiment,
@@ -103,16 +102,31 @@ public class RnaSeq {
             person,
             date);
 
-        String file = name + ".fpkm.txt";
+        String fileId = tokens.get(TextUtils.findFirst(header, "File Id"));
+        
+        List<String> filetypes = 
+            TextUtils.commaSplit(tokens.get(TextUtils.findFirst(header, "Filetypes")));
 
-        int sampleVfsId = VFS.createVfsFile(connection, samplesVfsRootId, file);
+        for (String type : filetypes) {
+          String file = fileId + "_" + type + ".txt";
 
-        VFS.createSampleFileLink(connection, sampleId, sampleVfsId);
+          int vfsId = VFS.createVfsFile(connection, samplesVfsRootId, file);
 
-        VFS.updatePath(connection,
-            sampleVfsId,
-            "/rna_seq/" + genome.getName() + "/rdf/" + experiment.getPublicId()
-                + "/" + file);
+          VFS.createSampleFileLink(connection, sampleId, vfsId);
+
+          VFS.updatePath(connection,
+              vfsId,
+              "/rna_seq/rdf/" + 
+              experiment.getPublicId() +
+              "/" + genome.getName() + 
+              "/" + file);
+          
+          // Link files via genome
+          VFS.createSampleGenomeFile(connection, 
+              sampleId,
+              genome.getId(),
+              vfsId);
+        }
 
         createGEO(connection, sampleId, header, tokens);
       }
@@ -134,10 +148,10 @@ public class RnaSeq {
       Person person,
       String releaseDate) throws SQLException, IOException, ParseException {
 
-    Type expressionType = Samples.createExpressionType(connection, "RNA-seq");
+    Type expressionType = Samples.createDataType(connection, "RNA-Seq");
 
     Type experimentField = Tags.createTag(connection,
-        new Path("Experiment", "Name"));
+        new RootPath("Experiment", "Name"));
 
     Type role = Persons.createRole(connection, "Investigator");
 
@@ -148,7 +162,7 @@ public class RnaSeq {
         organism.getId(),
         releaseDate);
 
-    Type field = Tags.createTag(connection, new Path("Sample", "Name"));
+    Type field = Tags.createTag(connection, new RootPath("Sample", "Name"));
 
     // Index the sample name
     addSampleSearchTerms(connection, sampleId, field, TextUtils.keywords(name));
@@ -157,7 +171,7 @@ public class RnaSeq {
 
     Samples.createSamplePerson(connection, sampleId, person.getId(), role);
 
-    field = Tags.createTag(connection, new Path("Sample", "Organism"));
+    field = Tags.createTag(connection, new RootPath("Sample", "Organism"));
 
     // Index the sample name
     addSampleSearchTerms(connection,
@@ -165,12 +179,12 @@ public class RnaSeq {
         field,
         TextUtils.keywords(organism.getScientificName()));
 
-    field = Tags.createTag(connection, new Path("Sample", "Expression_Type"));
+    field = Tags.createTag(connection, new RootPath("Sample", "Expression_Type"));
 
     // Index the sample name
-    addSampleSearchTerm(connection, sampleId, field, "RNA-seq");
+    addSampleSearchTerm(connection, sampleId, field, "RNA-Seq");
 
-    field = Tags.createTag(connection, new Path("Sample", "Person"));
+    field = Tags.createTag(connection, new RootPath("Sample", "Person"));
 
     addSampleSearchTerms(connection,
         sampleId,
@@ -191,7 +205,7 @@ public class RnaSeq {
     // VFS.createSampleFileLink(connection, sampleId, vfsId);
 
     // seq id type
-    Path path = new Path("RNA-seq", "Sample", "Seq_Id");
+    Path path = new RootPath("RNA-Seq", "Sample", "Seq_Id");
 
     field = Tags.createTag(connection, path);
     Samples.createSampleTag(connection, sampleId, field, seqId);
@@ -200,7 +214,7 @@ public class RnaSeq {
         field,
         TextUtils.keywords(seqId));
 
-    path = new Path("RNA-seq", "Sample", "Genome");
+    path = new RootPath("RNA-Seq", "Sample", "Genome");
     field = Tags.createTag(connection, path);
     Samples.createSampleTag(connection, sampleId, field, genome.getName());
     addSampleSearchTerms(connection,
@@ -208,7 +222,7 @@ public class RnaSeq {
         field,
         TextUtils.keywords(genome.getName()));
 
-    // path = new Path("RNA-seq", "Sample", "Organism");
+    // path = new RootPath("RNA-seq", "Sample", "Organism");
     // field = Fields.createField(connection, path);
     // Samples.createSampleField(connection, sampleId, field,
     // organism.getName());
@@ -217,7 +231,7 @@ public class RnaSeq {
     // field,
     // TextUtils.keywords(genome.getName()));
 
-    path = new Path("Sample", "Organism");
+    path = new RootPath("Sample", "Organism");
     field = Tags.createTag(connection, path);
     Samples.createSampleTag(connection, sampleId, field, organism.getName());
     addSampleSearchTerms(connection,
@@ -225,9 +239,13 @@ public class RnaSeq {
         field,
         TextUtils.keywords(genome.getName()));
 
-    path = new Path("RNA-seq", "Sample", "Read_Length");
+    path = new RootPath("RNA-Seq", "Sample", "Read_Length");
     field = Tags.createTag(connection, path);
     Samples.createSampleTag(connection, sampleId, field, readLength);
+    
+    ///path = new RootPath("RNA-Seq", "Sample", "File_Id");
+    //field = Tags.createTag(connection, path);
+    //Samples.createSampleTag(connection, sampleId, field, fileId);
 
     return sampleId;
   }
@@ -240,7 +258,7 @@ public class RnaSeq {
 
     // Default add it to all
 
-    Type allField = Tags.createTag(connection, new Path("RNA-seq", "All"));
+    Type allField = Tags.createTag(connection, new RootPath("RNA-Seq", "All"));
 
     Microarray.addSampleSearchTerms(connection, sampleId, allField, keywords);
   }
@@ -253,7 +271,7 @@ public class RnaSeq {
 
     // Default add it to all
 
-    Type allField = Tags.createTag(connection, new Path("RNA-seq", "All"));
+    Type allField = Tags.createTag(connection, new RootPath("RNA-Seq", "All"));
 
     Microarray.addSampleSearchTerm(connection, sampleId, allField, keyword);
   }
@@ -269,15 +287,15 @@ public class RnaSeq {
     String p = tokens.get(TextUtils.findFirst(header, "GEO Platform"));
 
     Type field = Tags.createTag(connection,
-        new Path("Sample", "GEO", "Series", "Accession"));
+        new RootPath("Sample", "GEO", "Series", "Accession"));
 
     addSampleSearchTerm(connection, sampleId, field, sa);
 
-    field = Tags.createTag(connection, new Path("Sample", "GEO", "Accession"));
+    field = Tags.createTag(connection, new RootPath("Sample", "GEO", "Accession"));
 
     addSampleSearchTerm(connection, sampleId, field, a);
 
-    field = Tags.createTag(connection, new Path("Sample", "GEO", "Platform"));
+    field = Tags.createTag(connection, new RootPath("Sample", "GEO", "Platform"));
 
     addSampleSearchTerm(connection, sampleId, field, p);
 

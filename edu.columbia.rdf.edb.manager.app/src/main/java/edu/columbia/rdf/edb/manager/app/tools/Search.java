@@ -164,7 +164,7 @@ public class Search {
       statement.setInt(1, searchFieldKeywordId);
       statement.setInt(2, sampleId);
 
-      // System.err.println(statement);
+      System.err.println(statement);
 
       table = JDBCConnection.getTable(statement);
     } finally {
@@ -181,6 +181,8 @@ public class Search {
     try {
       statement.setInt(1, searchFieldKeywordId);
       statement.setInt(2, sampleId);
+      
+      System.err.println(statement);
 
       statement.execute();
     } finally {
