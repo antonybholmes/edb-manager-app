@@ -51,6 +51,21 @@ ALTER TABLE groups_persons ADD CONSTRAINT group_person_uq UNIQUE (group_id, pers
 CREATE INDEX groups_persons_group_id_index ON groups_persons (group_id);
 CREATE INDEX groups_persons_persons_id_index ON groups_persons (person_id);
 
+
+DROP TABLE IF EXISTS groups_samples_persons CASCADE;
+CREATE TABLE groups_samples_persons (id SERIAL NOT NULL PRIMARY KEY,
+group_id INTEGER NOT NULL, 
+person_id INTEGER NOT NULL, 
+sample_id INTEGER NOT NULL, 
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE groups_samples_persons ADD FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE;
+ALTER TABLE groups_samples_persons ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
+ALTER TABLE groups_samples_persons ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
+ALTER TABLE groups_samples_persons ADD CONSTRAINT group_sample_person_uq UNIQUE (group_id, sample_id, person_id);
+CREATE INDEX groups_samples_persons_group_id_index ON groups_samples_persons (group_id);
+CREATE INDEX groups_samples_persons_sample_id_index ON groups_samples_persons (sample_id);
+CREATE INDEX groups_samples_persons_persons_id_index ON groups_samples_persons (person_id);
+
 -- user tables
 
 --DROP TABLE IF EXISTS users CASCADE;

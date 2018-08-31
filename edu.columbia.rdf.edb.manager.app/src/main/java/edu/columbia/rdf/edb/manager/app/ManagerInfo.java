@@ -6,7 +6,7 @@ import org.jebtk.modern.help.GuiAppInfo;
 
 public class ManagerInfo extends GuiAppInfo {
   public ManagerInfo() {
-    super("EDB Manager", new AppVersion(3),
+    super("EDB Manager", new AppVersion(4),
         "Copyright (C) 2016-${year} Antony Holmes.",
         AssetService.getInstance().loadIcon(ManagerIcon.class, 32),
         AssetService.getInstance().loadIcon(ManagerIcon.class, 128),
