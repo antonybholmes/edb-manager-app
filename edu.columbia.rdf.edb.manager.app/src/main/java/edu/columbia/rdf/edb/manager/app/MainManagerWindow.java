@@ -444,7 +444,7 @@ public class MainManagerWindow extends ModernRibbonWindow
 
   @Override
   public void close() {
-    Temp.deleteTempFiles();
+    TmpService.getInstance().deleteTempFiles();
 
     super.close();
   }
