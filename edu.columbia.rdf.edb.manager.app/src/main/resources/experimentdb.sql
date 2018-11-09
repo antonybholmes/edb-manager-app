@@ -68,40 +68,6 @@ CREATE INDEX groups_samples_persons_persons_id_index ON groups_samples_persons (
 
 -- user tables
 
---DROP TABLE IF EXISTS users CASCADE;
---CREATE TABLE users (id SERIAL NOT NULL PRIMARY KEY,
---person_id INTEGER NOT NULL UNIQUE,
---user_type user_type NOT NULL UNIQUE,
---password_hash_salted CHAR(128) NOT NULL, 
---salt CHAR(128) NOT NULL,
---public_uuid CHAR(32) NOT NULL UNIQUE,
---api_key CHAR(64) NOT NULL UNIQUE,
---created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
---CREATE INDEX users_person_index ON users(person_id);
---CREATE INDEX users_public_uuid_index ON users(public_uuid bpchar_pattern_ops);
---CREATE INDEX users_api_key_index ON users(api_key bpchar_pattern_ops);
---ALTER TABLE users ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
-
--- Stores the ip addresses a user can login in from
-DROP TABLE IF EXISTS user_ip_addresses CASCADE;
-CREATE TABLE user_ip_addresses (id SERIAL NOT NULL PRIMARY KEY,
-ip_address VARCHAR(255) NOT NULL,
-user_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP WITH TIME ZONE NOT NULL);
-ALTER TABLE user_ip_addresses ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
-CREATE INDEX user_ip_addresses_ip_address_index ON user_ip_addresses (ip_address);
-
-
-DROP TABLE IF EXISTS sample_permissions CASCADE;
-CREATE TABLE sample_permissions (id SERIAL NOT NULL PRIMARY KEY,
-person_id INTEGER NOT NULL, 
-sample_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE sample_permissions ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-ALTER TABLE sample_permissions ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
-CREATE INDEX sample_permissions_sample_id_index ON sample_permissions (sample_id);
-CREATE INDEX sample_permissions_person_id_index ON sample_permissions (person_id);
-
 
 DROP TABLE IF EXISTS login_sessions CASCADE;
 CREATE TABLE login_sessions (id SERIAL NOT NULL PRIMARY KEY,
@@ -111,33 +77,7 @@ created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 ALTER TABLE login_sessions ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
 
 
---DROP TABLE IF EXISTS login_ip_address CASCADE;
---CREATE TABLE login_ip_address (id SERIAL NOT NULL PRIMARY KEY,
---ip_address VARCHAR(255) NOT NULL,
---person_id INTEGER NOT NULL,
---created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP WITH TIME ZONE NOT NULL);
---ALTER TABLE login_ip_address ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
---CREATE INDEX login_ip_address_ip_address_index ON login_ip_address (ip_address);
-
---DROP TABLE IF EXISTS api_key_persons CASCADE;
---CREATE TABLE api_key_persons (id SERIAL NOT NULL PRIMARY KEY,
---key CHAR(64) NOT NULL UNIQUE,
---person_id INTEGER NOT NULL,
---created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP WITH TIME ZONE NOT NULL);
-
---DROP TABLE IF EXISTS api_keys CASCADE;
---CREATE TABLE api_keys (id SERIAL NOT NULL PRIMARY KEY,
---key CHAR(64) NOT NULL,
---ip_address VARCHAR(255) NOT NULL,
---created TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP WITH TIME ZONE NOT NULL);
-
-
 -- Support tables
-
-DROP TABLE IF EXISTS version CASCADE;
-CREATE TABLE version (id SERIAL NOT NULL PRIMARY KEY, 
-version INTEGER NOT NULL UNIQUE,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 
 DROP TABLE IF EXISTS organisms CASCADE;
 CREATE TABLE organisms (id SERIAL NOT NULL PRIMARY KEY, 
@@ -165,11 +105,6 @@ created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 ALTER TABLE microarray_platforms ADD FOREIGN KEY (assay_id) REFERENCES microarray_assays(id) ON DELETE CASCADE;
 ALTER TABLE microarray_platforms ADD FOREIGN KEY (provider_id) REFERENCES providers(id) ON DELETE CASCADE;
 
-DROP TABLE IF EXISTS file_types CASCADE;
-CREATE TABLE file_types (id SERIAL NOT NULL PRIMARY KEY, 
-name varchar(255) NOT NULL UNIQUE,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-
 -- Experiments
 
 DROP TABLE IF EXISTS experiments CASCADE;
@@ -178,17 +113,6 @@ public_id varchar(255) NOT NULL UNIQUE,
 name varchar(255) NOT NULL UNIQUE, 
 description TEXT NOT NULL,
 created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-
-DROP TABLE IF EXISTS experiment_permissions CASCADE;
-CREATE TABLE experiment_permissions (id SERIAL NOT NULL PRIMARY KEY,
-experiment_id INTEGER NOT NULL, 
-person_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE experiment_permissions ADD FOREIGN KEY (experiment_id) REFERENCES experiments(id) ON DELETE CASCADE;
-ALTER TABLE experiment_permissions ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
-CREATE INDEX experiment_permissions_experiment_id_index ON experiment_permissions (experiment_id);
-CREATE INDEX experiment_permissions_person_id_index ON experiment_permissions (person_id);
-
 
 -- Samples --
 
@@ -236,15 +160,6 @@ ALTER TABLE sample_alt_names ADD FOREIGN KEY (sample_id) REFERENCES samples(id) 
 CREATE INDEX sample_aliases_name_index ON sample_aliases(name varchar_pattern_ops);
 
 
-
-DROP TABLE IF EXISTS microarray_sample_platform CASCADE;
-CREATE TABLE microarray_sample_platform (id SERIAL NOT NULL PRIMARY KEY, 
-sample_id INTEGER NOT NULL UNIQUE, 
-platform_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE microarray_sample_platform ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-ALTER TABLE microarray_sample_platform ADD FOREIGN KEY (array_design_id) REFERENCES microarray_platforms(id) ON DELETE CASCADE;
-
 DROP TABLE IF EXISTS sample_persons CASCADE;
 CREATE TABLE sample_persons (id SERIAL NOT NULL PRIMARY KEY,
 sample_id INTEGER NOT NULL, 
@@ -255,34 +170,6 @@ ALTER TABLE sample_persons ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON
 ALTER TABLE sample_persons ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
 ALTER TABLE sample_persons ADD FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE;
 CREATE INDEX sample_persons_person_id_index ON sample_persons(person_id);
-
-DROP TABLE IF EXISTS json_sample_persons CASCADE;
-CREATE TABLE json_sample_persons (id SERIAL NOT NULL PRIMARY KEY,
-sample_id INTEGER NOT NULL,
-json json NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE json_sample_persons ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-CREATE INDEX json_sample_persons_sample_id_index ON json_sample_persons (sample_id);
-
-
-
--- DROP TABLE IF EXISTS directories CASCADE;
--- CREATE TABLE directories (id SERIAL NOT NULL PRIMARY KEY,
--- sample_id INTEGER NOT NULL,
--- name varchar(255) NOT NULL,
--- created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
--- ALTER TABLE directories ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
--- CREATE INDEX directories_sample_id_index ON directories (sample_id);
-
--- DROP TABLE IF EXISTS files CASCADE;
--- CREATE TABLE files (id SERIAL NOT NULL PRIMARY KEY,
--- parent_id INTEGER NOT NULL DEFAULT -1,
--- name varchar(255) NOT NULL,
--- file_type_id INTEGER NOT NULL,
--- created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
--- ALTER TABLE files ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
--- ALTER TABLE files ADD FOREIGN KEY (file_type_id) REFERENCES file_types(id) ON DELETE CASCADE;
--- CREATE INDEX files_sample_id_index ON files (sample_id);
 
 --- File System
 
@@ -305,17 +192,6 @@ ALTER TABLE vfs ADD FOREIGN KEY (type_id) REFERENCES vfs_types(id) ON DELETE CAS
 INSERT INTO vfs (name, type_id) VALUES ('/', 1);
 INSERT INTO vfs (name, parent_id, type_id) VALUES ('Experiments', 1, 1);
 
-
-DROP TABLE IF EXISTS experiment_files CASCADE;
-CREATE TABLE experiment_files (id SERIAL NOT NULL PRIMARY KEY,
-experiment_id INTEGER NOT NULL,
-vfs_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE experiment_files ADD FOREIGN KEY (experiment_id) REFERENCES experiments(id) ON DELETE CASCADE;
-ALTER TABLE experiment_files ADD FOREIGN KEY (vfs_id) REFERENCES vfs(id) ON DELETE CASCADE;
-CREATE INDEX experiment_files_experiment_id_index ON experiment_files (experiment_id);
-CREATE INDEX experiment_files_vfs_id_index ON experiment_files (vfs_id);
-
 DROP TABLE IF EXISTS sample_files CASCADE;
 CREATE TABLE sample_files (id SERIAL NOT NULL PRIMARY KEY,
 sample_id INTEGER NOT NULL,
@@ -326,18 +202,6 @@ ALTER TABLE sample_files ADD FOREIGN KEY (vfs_id) REFERENCES vfs(id) ON DELETE C
 ALTER TABLE sample_files ADD CONSTRAINT sample_vfs_unique UNIQUE (sample_id, vfs_id);
 CREATE INDEX sample_files_sample_id_index ON sample_files (sample_id);
 CREATE INDEX sample_files_vfs_id_index ON sample_files (vfs_id);
-
-
-DROP TABLE IF EXISTS chipseq_peak_json CASCADE;
-CREATE TABLE chipseq_peak_json (id SERIAL NOT NULL PRIMARY KEY,
-sample_id INTEGER NOT NULL,
-vfs_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE chipseq_peak_json ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-ALTER TABLE chipseq_peak_json ADD FOREIGN KEY (vfs_id) REFERENCES vfs(id) ON DELETE CASCADE;
-ALTER TABLE chipseq_peak_json ADD CONSTRAINT sample_vfs_unique UNIQUE (sample_id, vfs_id);
-CREATE INDEX chipseq_peak_json_sample_id_index ON chipseq_peak_json (sample_id);
-CREATE INDEX chipseq_peak_json_vfs_id_index ON chipseq_peak_json (vfs_id);
 
 
 -- tags
@@ -407,27 +271,6 @@ CREATE INDEX tags_samples_search_tag_keyword_search_id_index ON tags_samples_sea
 
 -- tags
 
-
-DROP TABLE IF EXISTS sample_permissions CASCADE;
-CREATE TABLE sample_permissions (id SERIAL NOT NULL PRIMARY KEY,
-sample_id INTEGER NOT NULL, 
-person_id INTEGER NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE sample_permissions ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-ALTER TABLE sample_permissions ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE CASCADE;
-CREATE INDEX sample_permissions_sample_id_index ON sample_permissions (sample_id);
-CREATE INDEX sample_permissions_person_id_index ON sample_permissions (person_id);
-
-
-DROP TABLE IF EXISTS json_tags_sample CASCADE;
-CREATE TABLE json_tags_sample (id SERIAL NOT NULL PRIMARY KEY,
-sample_id INTEGER NOT NULL,
-json json NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE json_tags_sample ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-CREATE INDEX json_tags_sample_sample_id_index ON json_tags_sample (sample_id);
-
-
 -- geo db functions
 
 DROP TABLE IF EXISTS geo_platforms CASCADE;
@@ -470,27 +313,7 @@ CREATE INDEX samples_geo_series_accession_index ON samples_geo USING btree(geo_s
 CREATE INDEX samples_geo_accession_index ON samples_geo USING btree(geo_accession varchar_pattern_ops);
 CREATE INDEX samples_geo_platform_index ON samples_geo USING btree(geo_platform varchar_pattern_ops);
 
-DROP TABLE IF EXISTS json_sample_geo CASCADE;
-CREATE TABLE json_sample_geo (id SERIAL NOT NULL PRIMARY KEY,
-sample_id INTEGER NOT NULL,
-json json NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE json_sample_geo ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
-CREATE INDEX json_sample_geo_sample_id_index ON json_sample_geo (sample_id);
-
-
-
 -- extended design tables
-
-DROP TABLE IF EXISTS genes CASCADE;
-CREATE TABLE genes (id SERIAL NOT NULL PRIMARY KEY, 
-name varchar(255) NOT NULL UNIQUE,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-
-DROP TABLE IF EXISTS chromosomes CASCADE;
-CREATE TABLE chromosomes (id SERIAL NOT NULL PRIMARY KEY, 
-name varchar(5) NOT NULL UNIQUE,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 
 DROP TABLE IF EXISTS genomes CASCADE;
 CREATE TABLE genomes (id SERIAL NOT NULL PRIMARY KEY, 
@@ -499,37 +322,6 @@ created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 CREATE INDEX genomes_name_index ON genomes (name);
 
 -- ChiP-Seq tables
-
-DROP TABLE IF EXISTS chip_seq_reads CASCADE;
-CREATE TABLE chip_seq_reads (id SERIAL NOT NULL PRIMARY KEY, 
-sample_id INTEGER NOT NULL,
-genome_id INTEGER NOT NULL,
-read_length INTEGER NOT NULL,
-read_count	INTEGER NOT NULL,
-mapped_read_count INTEGER NOT NULL,
-duplicate_read_count	INTEGER NOT NULL,
-percent_duplicate_reads	FLOAT NOT NULL,
-unique_read_count INTEGER NOT NULL, 
-percent_unique_reads FLOAT NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE chip_seq_reads ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
-ALTER TABLE chip_seq_reads ADD FOREIGN KEY (genome_id) REFERENCES genomes(id);
-CREATE INDEX chip_seq_reads_sample_id_index ON chip_seq_reads (sample_id);
-
-DROP TABLE IF EXISTS chipseq_peaks CASCADE;
-CREATE TABLE chipseq_peaks (id SERIAL NOT NULL PRIMARY KEY, 
-sample_id INTEGER NOT NULL,
-name varchar(255) NOT NULL UNIQUE,
-genome varchar(10) NOT NULL,
-parameters json,
-json json NOT NULL,
-created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
-ALTER TABLE chipseq_peaks ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
-CREATE INDEX chipseq_peaks_name_index ON chipseq_peaks(name varchar_pattern_ops);
-CREATE INDEX chipseq_peaks_genome_index ON chipseq_peaks(genome varchar_pattern_ops);
-
-
-
 
 -- rna seq tables
 
@@ -586,6 +378,27 @@ ALTER TABLE sample_genome_files ADD FOREIGN KEY (vfs_id) REFERENCES vfs(id);
 CREATE INDEX sample_genome_files_sample_id_index ON sample_genome_files (sample_id);
 CREATE INDEX sample_genome_files_genome_id_index ON sample_genome_files (genome_id);
 CREATE INDEX sample_genome_files_vfs_id_index ON sample_genome_files (vfs_id);
+
+
+DROP TABLE IF EXISTS ucsc_track_types CASCADE;
+CREATE TABLE ucsc_track_types (id SERIAL NOT NULL PRIMARY KEY, 
+name varchar(255) NOT NULL UNIQUE,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+DELETE FROM ucsc_track_types;
+INSERT INTO ucsc_track_types (name) VALUES ('bigWig');
+INSERT INTO ucsc_track_types (name) VALUES ('bigBed');
+
+
+DROP TABLE IF EXISTS ucsc_tracks CASCADE;
+CREATE TABLE ucsc_tracks (id SERIAL NOT NULL PRIMARY KEY, 
+sample_id INTEGER NOT NULL,
+track_type_id INTEGER NOT NULL,
+url varchar(255) NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE ucsc_tracks ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
+ALTER TABLE ucsc_tracks ADD FOREIGN KEY (track_type_id) REFERENCES ucsc_track_types(id);
+CREATE INDEX ucsc_tracks_sample_id_index ON ucsc_tracks (sample_id);
+CREATE INDEX ucsc_tracks_url_index ON ucsc_tracks (url);
 
 --- Link categories to words ---
 
