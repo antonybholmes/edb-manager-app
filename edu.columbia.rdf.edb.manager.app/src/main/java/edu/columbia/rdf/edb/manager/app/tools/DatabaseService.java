@@ -24,8 +24,10 @@ public class DatabaseService {
 
     // return
     // DriverManager.getConnection("jdbc:postgresql://localhost/experiment_store?user=antony&password=w0tnofear");
+    //return DriverManager.getConnection(
+    //    "jdbc:postgresql://lab-rdf-edbw.cxtlfoxy3mpr.us-east-1.rds.amazonaws.com:5432/edbw?user=edbw&password=261t8vzBmdYy3YG2");
     return DriverManager.getConnection(
-        "jdbc:postgresql://156.145.14.157/caarraydb?user=caarray&password=TwinkleToe007");
+        "jdbc:postgresql://18.209.96.125:5432/edbw?user=edbw&password=261t8vzBmdYy3YG2");
   }
 
   public static Connection getConnection(EDBLogin login)

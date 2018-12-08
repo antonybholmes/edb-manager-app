@@ -112,7 +112,7 @@ public class Experiments {
     // Create a file entry
     int exsVfsRootId = VFS.createVfsExDir(connection);
     int exVfsId = VFS.createVfsDir(connection, exsVfsRootId, publicName);
-    VFS.createExperimentFileLink(connection, experimentId, exVfsId);
+    //VFS.createExperimentFileLink(connection, experimentId, exVfsId);
 
     int[] ret = { experimentId, exVfsId };
 

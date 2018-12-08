@@ -21,7 +21,7 @@ public class Samples {
   //private static final String JSON_SAMPLE_PERSONS_SQL = "INSERT INTO json_sample_persons (sample_id, json) VALUES ('a1', 'a2')";
 
   public static Type createDataType(Connection connection, String name)
-      throws SQLException, ParseException {
+      throws SQLException {
     return Types.createType(connection, "data_types", name);
   }
 
@@ -97,9 +97,9 @@ public class Samples {
   public static int createSampleTag(Connection connection,
       int sampleId,
       Type field,
-      String value) throws SQLException, ParseException {
+      String value) throws SQLException {
     PreparedStatement statement = connection.prepareStatement(
-        "SELECT tags_sample.id FROM tags_sample WHERE tags_sample.sample_id = ? AND tags_sample.tag_id = ?");
+        "SELECT sample_tags.id FROM sample_tags WHERE sample_tags.sample_id = ? AND sample_tags.tag_id = ?");
 
     DatabaseResultsTable table;
 
@@ -117,7 +117,7 @@ public class Samples {
     }
 
     statement = connection.prepareStatement(
-        "INSERT INTO tags_sample (sample_id, tag_id, value) VALUES (?, ?, ?)");
+        "INSERT INTO sample_tags (sample_id, tag_id, tag_type_id, value) VALUES (?, ?, 1, ?)");
 
     try {
       statement.setInt(1, sampleId);
@@ -148,7 +148,7 @@ public class Samples {
       Type tag,
       int value) throws SQLException {
     PreparedStatement statement = connection.prepareStatement(
-        "SELECT tags_sample_int.id FROM tags_sample_int WHERE tags_sample_int.sample_id = ? AND tags_sample_int.tag_id = ?");
+        "SELECT sample_tags.id FROM sample_tags WHERE sample_tags.sample_id = ? AND sample_tags.tag_id = ?");
 
     int table = -1;
 
@@ -168,7 +168,7 @@ public class Samples {
     }
 
     statement = connection.prepareStatement(
-        "INSERT INTO tags_sample_int (sample_id, tag_id, value) VALUES (?, ?, ?)");
+        "INSERT INTO sample_tags (sample_id, tag_id, tag_type_id, value) VALUES (?, ?, 2, ?)");
 
     try {
       statement.setInt(1, sampleId);
@@ -201,7 +201,7 @@ public class Samples {
       Type field,
       double value) throws SQLException {
     PreparedStatement statement = connection.prepareStatement(
-        "SELECT tags_sample_float.id FROM tags_sample_float WHERE tags_sample_float.sample_id = ? AND tags_sample_float.tag_id = ?");
+        "SELECT sample_tags.id FROM sample_tags WHERE sample_tags.sample_id = ? AND sample_tags.tag_id = ?");
 
     DatabaseResultsTable table;
 
@@ -219,7 +219,7 @@ public class Samples {
     }
 
     statement = connection.prepareStatement(
-        "INSERT INTO tags_sample_float (sample_id, tag_id, value) VALUES (?, ?, ?)");
+        "INSERT INTO sample_tags (sample_id, tag_id, tag_type_id, value) VALUES (?, ?, 3, ?)");
 
     try {
       statement.setInt(1, sampleId);

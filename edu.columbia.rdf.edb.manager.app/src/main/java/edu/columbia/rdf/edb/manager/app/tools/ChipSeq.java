@@ -1583,6 +1583,11 @@ public class ChipSeq {
                                // name);
   }
 
+  public static Type createMode(Connection connection, String name)
+      throws SQLException {
+    return Types.createType(connection, "sequence_mode", name);
+  }
+
   public static int createChipSeqSample(Connection connection,
       Experiment experiment,
       String name,
@@ -1592,8 +1597,11 @@ public class ChipSeq {
       Type treatment,
       Species organism,
       Type genome,
+      int readLength,
+      String peakCaller,
+      String peakCallerParams,
       Person person,
-      String releaseDate) throws SQLException, IOException, ParseException {
+      String releaseDate) throws SQLException, IOException {
 
     Type expressionType = Samples.createDataType(connection, "ChIP-Seq");
 
@@ -1609,6 +1617,21 @@ public class ChipSeq {
         organism.getId(),
         releaseDate);
 
+    /*
+    createChipSeqSampleTableEntry(connection,
+        sampleId,
+        name,
+        seqId,
+        chipSeqType,
+        cellType,
+        treatment,
+        genome,
+        readLength,
+        mode,
+        peakCaller,
+        peakCallerParams);
+    */
+    
     Type field = Tags.createTag(connection,
         Path.createRootPath("Sample", "Name"));
 
@@ -1619,7 +1642,6 @@ public class ChipSeq {
 
     Samples.createSamplePerson(connection, sampleId, person.getId(), role);
 
-    
     field = Tags.createTag(connection,
         Path.createRootPath("Sample", "Organism"));
 
@@ -1720,10 +1742,75 @@ public class ChipSeq {
     return sampleId;
   }
 
+  public static int createChipSeqSampleTableEntry(Connection connection,
+      int sampleId,
+      String name,
+      String seqId,
+      Type chipSeqType,
+      Type cellType,
+      Type treatment,
+      Type genome,
+      int readLength,
+      Type mode,
+      String peakCaller,
+      String peakCallerParams)
+      throws SQLException, IOException {
+
+    PreparedStatement statement = connection.prepareStatement(
+        "SELECT chip_seq.id FROM chip_seq WHERE chip_seq.sample_id = ?");
+
+    DatabaseResultsTable table;
+
+    try {
+      statement.setInt(1, sampleId);
+
+      table = JDBCConnection.getTable(statement);
+    } finally {
+      statement.close();
+    }
+
+    if (table.getRowCount() == 1) {
+      return table.getInt(0, 0);
+    }
+
+    statement = connection.prepareStatement(
+        "INSERT INTO chip_seq (sample_id, seq_id, chip_type, cell_type, treatment, genome, read_length, mode_id, peak_caller, peak_caller_params) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    try {
+      statement.setInt(1, sampleId);
+      statement.setString(2, seqId);
+      statement.setString(3, chipSeqType.mName);
+      statement.setString(4, cellType.mName);
+      statement.setString(5, treatment.mName);
+      statement.setString(6, genome.mName);
+      statement.setInt(7, readLength);
+      statement.setInt(8, mode.mId);
+      statement.setString(9, peakCaller);
+      statement.setString(10, peakCallerParams);
+
+      statement.execute();
+    } finally {
+      statement.close();
+    }
+
+    return createChipSeqSampleTableEntry(connection,
+        sampleId,
+        name,
+        seqId,
+        chipSeqType,
+        cellType,
+        treatment,
+        genome,
+        readLength,
+        mode,
+        peakCaller,
+        peakCallerParams);
+  }
+
   public static void addSampleSearchTerms(Connection connection,
       int sampleId,
       Type field,
-      Set<String> keywords) throws SQLException, ParseException {
+      Set<String> keywords) throws SQLException {
     Microarray.addSampleSearchTerms(connection, sampleId, field, keywords);
 
     // Default add it to all
@@ -1737,7 +1824,7 @@ public class ChipSeq {
   public static void addSampleSearchTerm(Connection connection,
       int sampleId,
       Type field,
-      String keyword) throws SQLException, ParseException {
+      String keyword) throws SQLException {
     Microarray.addSampleSearchTerm(connection, sampleId, field, keyword);
 
     // Default add it to all
@@ -1833,6 +1920,9 @@ public class ChipSeq {
         Type treatment = createTreatment(connection,
             tokens.get(TextUtils.findFirst(header, "Treatment")));
 
+        //Type mode = createMode(connection,
+         //   tokens.get(TextUtils.findFirst(header, "Mode")));
+
         int sampleId = createChipSeqSample(connection,
             experiment,
             name,
@@ -1842,6 +1932,9 @@ public class ChipSeq {
             treatment,
             organism,
             genome,
+            Integer.parseInt(tokens.get(TextUtils.findFirst(header, "Read Length"))),
+            tokens.get(TextUtils.findFirst(header, "Peak Caller")),
+            tokens.get(TextUtils.findFirst(header, "Peak Caller Parameters")),
             person,
             date);
 
@@ -1871,8 +1964,8 @@ public class ChipSeq {
       reader.close();
     }
 
-    //ExperimentPermissions.main(null);
-    //SamplePermissions.main(null);
+    // ExperimentPermissions.main(null);
+    // SamplePermissions.main(null);
   }
 
   private static void createPeakInfo(Connection connection,

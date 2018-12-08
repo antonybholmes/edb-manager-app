@@ -22,7 +22,7 @@ public class DatabaseTableModel extends ModernColumnHeaderTableModel {
   }
 
   @Override
-  public int getColumnCount() {
+  public int getColCount() {
     return mTable.getColumnCount();
   }
 

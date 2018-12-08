@@ -705,7 +705,7 @@ public class Microarray {
   public static void addSampleSearchTerms(Connection connection,
       int sampleId,
       Type field,
-      Set<String> keywords) throws SQLException, ParseException {
+      Set<String> keywords) throws SQLException {
     for (String keyword : keywords) {
       addSampleSearchTerm(connection, sampleId, field, keyword);
     }
@@ -714,7 +714,7 @@ public class Microarray {
   public static void addSampleSearchTerm(Connection connection,
       int sampleId,
       Type tag,
-      String keyword) throws SQLException, ParseException {
+      String keyword) throws SQLException {
     // int categoryId = Search.createSearchCategory(connection, path);
 
     // Type field = Samples.createField(connection, path);
@@ -728,7 +728,7 @@ public class Microarray {
 
   public static void addSampleSearchTermAll(Connection connection,
       int sampleId,
-      String keyword) throws SQLException, ParseException {
+      String keyword) throws SQLException {
     // int categoryId = Search.createSearchCategory(connection, path);
 
     Type field = Tags.createTag(connection, "All");
@@ -740,7 +740,7 @@ public class Microarray {
       String arrayDesign,
       String assay,
       String provider)
-      throws SQLException, IOException, SQLException, ParseException {
+      throws SQLException, IOException, SQLException {
 
     Type providerId = createProvider(connection, provider);
 
@@ -752,7 +752,7 @@ public class Microarray {
   public static int createArrayDesign(Connection connection,
       String name,
       Type assayId,
-      Type providerId) throws SQLException, ParseException {
+      Type providerId) throws SQLException {
     System.err.println(name);
 
     PreparedStatement statement = connection.prepareStatement(
@@ -789,19 +789,19 @@ public class Microarray {
   }
 
   static Type createProvider(Connection connection, String name)
-      throws SQLException, ParseException {
+      throws SQLException {
 
     return Types.createType(connection, "providers", name);
   }
 
   public static Type createAssay(Connection connection, String name)
-      throws SQLException, ParseException {
+      throws SQLException {
 
     return Types.createType(connection, "microarray_assays", name);
   }
 
   public static int getArrayDesign(Connection connection, String name)
-      throws SQLException, ParseException {
+      throws SQLException {
 
     PreparedStatement statement = connection.prepareStatement(
         "SELECT microarray_platforms.id FROM microarray_platforms WHERE microarray_platforms.name = ?");

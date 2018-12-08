@@ -3,12 +3,13 @@ package edu.columbia.rdf.edb.manager.app.tools;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.jebtk.core.Resources;
-import org.jebtk.core.cli.CommandLineArg;
-import org.jebtk.core.cli.CommandLineArgs;
-import org.jebtk.core.cli.CommandLineOption;
-import org.jebtk.core.cli.Options;
+import org.jebtk.core.cli.Arg;
+import org.jebtk.core.cli.ArgParser;
+import org.jebtk.core.cli.Args;
 
 public class MainCreateExperimentDB {
 
@@ -20,18 +21,18 @@ public class MainCreateExperimentDB {
    */
   public static void main(String[] args)
       throws IOException, SQLException, ClassNotFoundException {
-    Options options = new Options();
+    Args options = new Args();
 
     options
-        .addOption(new CommandLineOption('d', "database", true, "Database."));
-    options.addOption(
-        new CommandLineOption('i', "ip", true, "Database ip address."));
-    options.addOption(
-        new CommandLineOption('p', "password", true, "Database password."));
-    options.addOption(
-        new CommandLineOption('u', "user", true, "Database username."));
+        .add(new Arg('d', "database", true, "Database."));
+    options.add(
+        new Arg('i', "ip", true, "Database ip address."));
+    options.add(
+        new Arg('p', "password", true, "Database password."));
+    options.add(
+        new Arg('u', "user", true, "Database username."));
     options
-        .addOption(new CommandLineOption('s', "store", true, "Store folder."));
+        .add(new Arg('s', "store", true, "Store folder."));
 
     String database = null;
     String ip = null;
@@ -39,24 +40,24 @@ public class MainCreateExperimentDB {
     String password = null;
     String store = null;
 
-    CommandLineArgs clos = CommandLineArgs.parse(options, args);
+    ArgParser clos = new ArgParser(options).parse(args);
 
-    for (CommandLineArg clo : clos) {
-      switch (clo.getShortName()) {
-      case 'd':
-        database = clo.getValue();
+    for (Entry<String, List<String>> clo : clos) {
+      switch (clo.getKey()) {
+      case "database":
+        database = clo.getValue().get(0);
         break;
-      case 'i':
-        ip = clo.getValue();
+      case "ip":
+        ip = clo.getValue().get(0);
         break;
-      case 'u':
-        user = clo.getValue();
+      case "user":
+        user = clo.getValue().get(0);
         break;
-      case 'p':
-        password = clo.getValue();
+      case "p":
+        password = clo.getValue().get(0);
         break;
-      case 's':
-        store = clo.getValue();
+      case "store":
+        store = clo.getValue().get(0);
         break;
       }
     }

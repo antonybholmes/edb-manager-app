@@ -34,7 +34,7 @@ ALTER TABLE login_persons ADD FOREIGN KEY (person_id) REFERENCES persons(id) ON 
 DROP TABLE IF EXISTS groups CASCADE;
 CREATE TABLE groups (id SERIAL NOT NULL PRIMARY KEY,
 name VARCHAR(255) NOT NULL UNIQUE, 
-color CHAR(7) NOT NULL DEFAULT '#ECECEC', 
+color CHAR(7) NOT NULL DEFAULT '#CCCCCC', 
 created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 INSERT INTO groups (name) VALUES ('Administrator');
 INSERT INTO groups (name) VALUES ('Superuser');
@@ -204,12 +204,47 @@ CREATE INDEX sample_files_sample_id_index ON sample_files (sample_id);
 CREATE INDEX sample_files_vfs_id_index ON sample_files (vfs_id);
 
 
+DROP TABLE IF EXISTS ucsc_bigbed CASCADE;
+CREATE TABLE ucsc_bigbed (id SERIAL NOT NULL PRIMARY KEY,
+sample_id INTEGER NOT NULL,
+path varchar(255) NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE ucsc_bigbed ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
+CREATE INDEX ucsc_bigbed_sample_id_index ON ucsc_bigbed (sample_id);
+
+
+
 -- tags
 
 DROP TABLE IF EXISTS tags CASCADE;
 CREATE TABLE tags (id SERIAL NOT NULL PRIMARY KEY,
 name varchar(255) NOT NULL,
 created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+
+DROP TABLE IF EXISTS tag_types CASCADE;
+CREATE TABLE tag_types (id SERIAL NOT NULL PRIMARY KEY,
+name varchar(255) NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+INSERT INTO tag_types (name) VALUES ('str');
+INSERT INTO tag_types (name) VALUES ('int');
+INSERT INTO tag_types (name) VALUES ('float');
+
+DROP TABLE IF EXISTS sample_tags CASCADE;
+CREATE TABLE sample_tags (id SERIAL NOT NULL PRIMARY KEY,
+sample_id INTEGER NOT NULL,
+tag_id INTEGER NOT NULL,
+tag_type_id INTEGER NOT NULL,
+str_value varchar(255),
+int_value INTEGER,
+float_value FLOAT,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE sample_tags ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
+ALTER TABLE sample_tags ADD FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE;
+ALTER TABLE sample_tags ADD FOREIGN KEY (tag_type_id) REFERENCES tag_types(id) ON DELETE CASCADE;
+CREATE INDEX sample_tags_sample_id_index ON tags_sample (sample_id);
+CREATE INDEX sample_tags_tag_id_index ON tags_sample (tag_id);
+
+
 
 DROP TABLE IF EXISTS tags_sample CASCADE;
 CREATE TABLE tags_sample (id SERIAL NOT NULL PRIMARY KEY,
@@ -325,6 +360,39 @@ CREATE INDEX genomes_name_index ON genomes (name);
 
 -- rna seq tables
 
+DROP TABLE IF EXISTS sequence_mode CASCADE;
+CREATE TABLE sequence_mode (id SERIAL NOT NULL PRIMARY KEY, 
+name VARCHAR(255) NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+CREATE INDEX sequence_mode_index ON keywords(lower(name) varchar_pattern_ops);
+INSERT INTO sequence_mode (name) VALUES ('single_end');
+INSERT INTO sequence_mode (name) VALUES ('paired_end');
+
+DROP TABLE IF EXISTS chip_seq CASCADE;
+CREATE TABLE chip_seq (id SERIAL NOT NULL PRIMARY KEY, 
+sample_id INTEGER NOT NULL,
+seq_id varchar(255) NOT NULL,
+chip_type varchar(255) NOT NULL,
+cell_type varchar(255) NOT NULL,
+treatment varchar(255) NOT NULL,
+genome varchar(255) NOT NULL,
+mode_id INTEGER NOT NULL,
+read_length INTEGER NOT NULL,
+reads INTEGER DEFAULT -1,
+mapped_reads INTEGER DEFAULT -1,
+duplicate_reads INTEGER DEFAULT -1,
+pc_duplicate_reads FLOAT DEFAULT -1,
+unique_reads INTEGER DEFAULT -1,
+pc_unique_reads FLOAT DEFAULT -1,
+peak_caller varchar(255) NOT NULL,
+peak_caller_params varchar(255) DEFAULT 'n/a',
+geo_series_accession varchar(255) DEFAULT 'n/a',
+geo_accession varchar(255) DEFAULT 'n/a',
+geo_platform varchar(255) DEFAULT 'n/a',
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE chip_seq ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
+ALTER TABLE chip_seq ADD FOREIGN KEY (mode_id) REFERENCES sequence_mode(id);
+
 DROP TABLE IF EXISTS rna_seq CASCADE;
 CREATE TABLE rna_seq (id SERIAL NOT NULL PRIMARY KEY, 
 sample_id INTEGER NOT NULL,
@@ -399,6 +467,29 @@ ALTER TABLE ucsc_tracks ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
 ALTER TABLE ucsc_tracks ADD FOREIGN KEY (track_type_id) REFERENCES ucsc_track_types(id);
 CREATE INDEX ucsc_tracks_sample_id_index ON ucsc_tracks (sample_id);
 CREATE INDEX ucsc_tracks_url_index ON ucsc_tracks (url);
+
+
+
+DROP TABLE IF EXISTS genomic_element_types CASCADE;
+CREATE TABLE genomic_element_types (id SERIAL NOT NULL PRIMARY KEY, 
+name varchar(255) NOT NULL UNIQUE,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+INSERT INTO genomic_element_types (name) VALUES ('peaks');
+
+
+DROP TABLE IF EXISTS genomic_elements CASCADE;
+CREATE TABLE genomic_elements (id SERIAL NOT NULL PRIMARY KEY, 
+sample_id INTEGER NOT NULL,
+type_id INTEGER NOT NULL,
+name varchar(255) NOT NULL UNIQUE,
+path varchar(255) NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE genomic_elements ADD FOREIGN KEY (sample_id) REFERENCES samples(id);
+ALTER TABLE genomic_elements ADD FOREIGN KEY (type_id) REFERENCES genomic_element_types(id);
+CREATE INDEX genomic_elements_sample_id_index ON genomic_elements (sample_id);
+
+
+
 
 --- Link categories to words ---
 

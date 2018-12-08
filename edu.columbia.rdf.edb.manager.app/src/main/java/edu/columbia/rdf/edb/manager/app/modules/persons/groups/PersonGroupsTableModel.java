@@ -47,7 +47,7 @@ public class PersonGroupsTableModel extends DatabaseTableModel {
   }
 
   @Override
-  public int getColumnCount() {
+  public int getColCount() {
     return 3;
   }
 

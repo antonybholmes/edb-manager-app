@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-	<setting name="edb.manager.server" value="156.145.14.157" />
-	<setting name="edb.manager.db" value="caarraydb" />
-	<setting name="edb.manager.user" value="caarray" />
-	<setting name="edb.manager.password" value="TwinkleToe007" />
+	<setting name="edb.manager.server" value="18.209.96.125:5432" />
+	<setting name="edb.manager.db" value="edbw" />
+	<setting name="edb.manager.user" value="edbw" />
+	<setting name="edb.manager.password" value="261t8vzBmdYy3YG2" />
 
-	<setting name="edbw.server" value="http://156.145.14.157:8080/edbw7" />
+	<setting name="edbw.server" value="http://52.206.83.98/edbw" />
 	<setting name="edbw.key"
 		value="yLBctUKZrtChaD8hVE7nKw8DVpESnqcsVckHCrvZvRhXSL6p" />
 	<setting name="edbw.totp"
