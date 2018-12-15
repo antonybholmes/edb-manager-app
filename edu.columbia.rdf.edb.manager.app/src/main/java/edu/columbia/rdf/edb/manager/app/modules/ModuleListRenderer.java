@@ -31,7 +31,7 @@ public class ModuleListRenderer extends ModernListCellRenderer {
   private static final int NUM_WIDTH = 20;
 
   @Override
-  public void drawForegroundAAText(Graphics2D g2) {
+  public void drawForegroundAA(Graphics2D g2) {
     int x = DOUBLE_PADDING;
     int x2 = getWidth() - ORB_WIDTH - DOUBLE_PADDING;
 

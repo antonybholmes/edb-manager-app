@@ -241,8 +241,8 @@ created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 ALTER TABLE sample_tags ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
 ALTER TABLE sample_tags ADD FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE;
 ALTER TABLE sample_tags ADD FOREIGN KEY (tag_type_id) REFERENCES tag_types(id) ON DELETE CASCADE;
-CREATE INDEX sample_tags_sample_id_index ON tags_sample (sample_id);
-CREATE INDEX sample_tags_tag_id_index ON tags_sample (tag_id);
+CREATE INDEX sample_tags_sample_id_index ON sample_tags (sample_id);
+CREATE INDEX sample_tags_tag_id_index ON sample_tags (tag_id);
 
 
 
