@@ -12,7 +12,7 @@ import org.jebtk.modern.theme.ThemeService;
 /**
  * Renders a file as a list item.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class ModuleListRenderer extends ModernListCellRenderer {

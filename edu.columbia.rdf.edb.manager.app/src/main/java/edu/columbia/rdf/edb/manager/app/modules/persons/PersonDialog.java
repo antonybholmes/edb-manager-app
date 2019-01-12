@@ -28,7 +28,7 @@ import edu.columbia.rdf.edb.manager.app.tools.Persons;
 /**
  * Allows a matrix group to be edited.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class PersonDialog extends ModernDialogTaskWindow

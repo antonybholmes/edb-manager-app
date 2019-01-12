@@ -13,7 +13,7 @@ import org.jebtk.database.JDBCConnection;
 /**
  * Concerning primitive types in the database.
  * 
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  *
  */
 public class Types {

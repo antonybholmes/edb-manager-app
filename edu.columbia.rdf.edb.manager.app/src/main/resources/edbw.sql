@@ -148,7 +148,20 @@ ALTER TABLE groups_samples ADD CONSTRAINT group_sample_uq UNIQUE (group_id, samp
 CREATE INDEX groups_samples_group_id_index ON groups_samples (group_id);
 CREATE INDEX groups_samples_persons_id_index ON groups_samples (sample_id);
 
+DROP TABLE IF EXISTS sets CASCADE;
+CREATE TABLE sets (id SERIAL NOT NULL PRIMARY KEY, 
+name varchar(255) NOT NULL UNIQUE,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
 
+DROP TABLE IF EXISTS sets_samples CASCADE;
+CREATE TABLE sets_samples (id SERIAL NOT NULL PRIMARY KEY,
+set_id INTEGER NOT NULL, 
+sample_id INTEGER NOT NULL, 
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE sets_samples ADD FOREIGN KEY (set_id) REFERENCES sets(id) ON DELETE CASCADE;
+ALTER TABLE sets_samples ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
+CREATE INDEX sets_samples_set_id_index ON sets_samples (set_id);
+CREATE INDEX sets_samples_persons_id_index ON sets_samples (sample_id);
 
 -- Unfortunately samples can have various names so take account of this --
 DROP TABLE IF EXISTS sample_aliases CASCADE;
@@ -246,6 +259,10 @@ CREATE INDEX sample_tags_tag_id_index ON sample_tags (tag_id);
 
 
 
+
+
+
+
 DROP TABLE IF EXISTS tags_sample CASCADE;
 CREATE TABLE tags_sample (id SERIAL NOT NULL PRIMARY KEY,
 sample_id INTEGER NOT NULL,
@@ -257,6 +274,15 @@ ALTER TABLE tags_sample ADD FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE C
 CREATE INDEX tags_sample_sample_id_index ON tags_sample (sample_id);
 CREATE INDEX tags_sample_tag_id_index ON tags_sample (tag_id);
 CREATE INDEX tags_sample_value_index ON tags_sample (value varchar_pattern_ops);
+
+
+DROP TABLE IF EXISTS sample_tags_json CASCADE;
+CREATE TABLE sample_tags_json (id SERIAL NOT NULL PRIMARY KEY,
+sample_id INTEGER NOT NULL,
+data jsonb NOT NULL,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE sample_tags_json ADD FOREIGN KEY (sample_id) REFERENCES samples(id) ON DELETE CASCADE;
+CREATE INDEX sample_tags_json_sample_id_index ON sample_tags_json (sample_id);
 
 -- assign integer numerical data to a sample
 DROP TABLE IF EXISTS tags_sample_int CASCADE;

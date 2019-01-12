@@ -25,8 +25,8 @@ public class PersonGroupsTableModel extends DatabaseTableModel {
   }
 
   @Override
-  public List<String> getColumnAnnotationText(int column) {
-    return super.getColumnAnnotationText(HEADER, column);
+  public List<String> getColumns().getAnnotation(int column) {
+    return super.getColumns().getAnnotation(HEADER, column);
   }
 
   @Override

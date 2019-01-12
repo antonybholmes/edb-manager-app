@@ -1,14 +1,14 @@
 package edu.columbia.rdf.edb.manager.app;
 
 import org.jebtk.database.DatabaseResultsTable;
-import org.jebtk.modern.table.ModernColumnHeaderTableModel;
+import org.jebtk.modern.table.ModernTableModel;
 
 /**
  * Extended table model.
  *
- * @author Antony Holmes Holmes
+ * @author Antony Holmes
  */
-public class DatabaseTableModel extends ModernColumnHeaderTableModel {
+public class DatabaseTableModel extends ModernTableModel {
 
   private DatabaseResultsTable mTable;
 
