@@ -10,7 +10,7 @@ import org.jebtk.database.DatabaseResultsTable;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.combobox.ModernComboBox;
-import org.jebtk.modern.dialog.ModernDialogFlatButton;
+import org.jebtk.modern.dialog.RibbonButton;
 import org.jebtk.modern.dialog.ModernDialogTaskWindow;
 import org.jebtk.modern.event.ModernClickEvent;
 import org.jebtk.modern.event.ModernClickListener;
@@ -42,7 +42,7 @@ public class PersonDialog extends ModernDialogTaskWindow
   private ModernTextField mAddressField = new ModernClipboardTextField();
   private ModernTextField mEmailField = new ModernClipboardTextField();
 
-  private ModernButton mGenPublicIdButton = new ModernDialogFlatButton(
+  private ModernButton mGenPublicIdButton = new RibbonButton(
       "Generate");
 
   private ModernTextField mPassField = new ModernClipboardTextField();
@@ -50,9 +50,9 @@ public class PersonDialog extends ModernDialogTaskWindow
   private ModernTextField mPublicIdField = new ModernClipboardTextField();
   private ModernTextField mKeyField = new ModernClipboardTextField();
 
-  private ModernButton mGenSaltButton = new ModernDialogFlatButton("Generate");
+  private ModernButton mGenSaltButton = new RibbonButton("Generate");
 
-  private ModernButton mGenKeyButton = new ModernDialogFlatButton("Generate");
+  private ModernButton mGenKeyButton = new RibbonButton("Generate");
 
   private ModernComboBox mTypeCombo = new UserTypeCombo();
 
