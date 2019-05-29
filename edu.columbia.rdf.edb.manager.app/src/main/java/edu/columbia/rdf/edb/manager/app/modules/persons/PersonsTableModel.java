@@ -1,7 +1,5 @@
 package edu.columbia.rdf.edb.manager.app.modules.persons;
 
-import java.util.List;
-
 import org.jebtk.database.DatabaseResultsTable;
 
 import edu.columbia.rdf.edb.manager.app.DatabaseTableModel;
@@ -16,7 +14,7 @@ public class PersonsTableModel extends DatabaseTableModel {
   }
 
   @Override
-  public List<String> getColumns().getAnnotation(int column) {
-    return super.getColumns().getAnnotation(HEADER, column);
+  public String getColumnName(int column) {
+    return HEADER[column];
   }
 }

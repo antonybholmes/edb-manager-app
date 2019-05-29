@@ -8,8 +8,8 @@ import javax.swing.Box;
 
 import org.jebtk.database.DatabaseResultsTable;
 import org.jebtk.database.JDBCConnection;
-import org.jebtk.modern.BorderService;
 import org.jebtk.modern.AssetService;
+import org.jebtk.modern.BorderService;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.dataview.ModernDataModel;
 import org.jebtk.modern.panel.HBox;

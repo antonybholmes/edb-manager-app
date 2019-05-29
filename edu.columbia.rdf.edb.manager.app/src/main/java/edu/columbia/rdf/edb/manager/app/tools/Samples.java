@@ -117,7 +117,7 @@ public class Samples {
     }
 
     statement = connection.prepareStatement(
-        "INSERT INTO sample_tags (sample_id, tag_id, tag_type_id, value) VALUES (?, ?, 1, ?)");
+        "INSERT INTO sample_tags (sample_id, tag_id, tag_type_id, str_value) VALUES (?, ?, 1, ?)");
 
     try {
       statement.setInt(1, sampleId);

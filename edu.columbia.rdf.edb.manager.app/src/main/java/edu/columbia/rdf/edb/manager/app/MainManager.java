@@ -14,7 +14,6 @@ import org.jebtk.core.AppService;
 import org.jebtk.core.PluginService;
 import org.jebtk.core.settings.SettingsService;
 import org.jebtk.modern.ColorTheme;
-import org.jebtk.modern.help.GuiAppInfo;
 import org.jebtk.modern.theme.ThemeService;
 import org.xml.sax.SAXException;
 

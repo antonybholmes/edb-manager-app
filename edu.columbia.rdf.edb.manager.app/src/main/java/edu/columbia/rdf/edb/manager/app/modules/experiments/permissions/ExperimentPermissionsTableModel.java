@@ -25,8 +25,8 @@ public class ExperimentPermissionsTableModel extends DatabaseTableModel {
   }
 
   @Override
-  public List<String> getColumns().getAnnotation(int column) {
-    return super.getColumns().getAnnotation(HEADER, column);
+  public String getColumnName(int column) {
+    return HEADER[column];
   }
 
   @Override

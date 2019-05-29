@@ -1593,7 +1593,6 @@ public class ChipSeq {
       String name,
       String seqId,
       Type chipSeqType,
-      Type cellType,
       Type treatment,
       Species organism,
       Type genome,
@@ -1708,12 +1707,12 @@ public class ChipSeq {
 
     field = Tags.createTag(connection, path);
 
-    Samples.createSampleTag(connection, sampleId, field, cellType.getName());
+    //Samples.createSampleTag(connection, sampleId, field, cellType.getName());
 
-    addSampleSearchTerms(connection,
-        sampleId,
-        field,
-        TextUtils.keywords(cellType.getName()));
+    //addSampleSearchTerms(connection,
+    //    sampleId,
+     //   field,
+    //    TextUtils.keywords(cellType.getName()));
 
     // treatment type
 
@@ -1911,8 +1910,8 @@ public class ChipSeq {
             tokens.get(TextUtils.findFirst(header, "Raw Data Directory")),
             name);
 
-        Type cellType = createCellType(connection,
-            tokens.get(TextUtils.findFirst(header, "Cell Type")));
+        //Type cellType = createCellType(connection,
+        //    tokens.get(TextUtils.findFirst(header, "Cell Type")));
 
         Type chipType = createChipType(connection,
             tokens.get(TextUtils.findFirst(header, "ChIP Type")));
@@ -1928,7 +1927,6 @@ public class ChipSeq {
             name,
             seqId,
             chipType,
-            cellType,
             treatment,
             organism,
             genome,
@@ -1949,7 +1947,7 @@ public class ChipSeq {
 
         VFS.updatePath(connection, sampleDirVfsId, dataDir);
 
-        createPeakInfo(connection, sampleId, genome, header, tokens);
+        //createPeakInfo(connection, sampleId, genome, header, tokens);
 
         createGEO(connection, sampleId, header, tokens);
 
