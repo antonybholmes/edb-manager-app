@@ -19,6 +19,12 @@ CREATE INDEX persons_last_name_index ON persons(last_name varchar_pattern_ops);
 CREATE INDEX persons_email_index ON persons(email varchar_pattern_ops);
 CREATE INDEX persons_public_uuid_index ON persons(public_uuid bpchar_pattern_ops);
 
+DROP TABLE IF EXISTS auth_api_keys CASCADE;
+CREATE TABLE auth_api_keys (id SERIAL NOT NULL PRIMARY KEY,
+user_id INTEGER NOT NULL UNIQUE, 
+guid CHAR(32) NOT NULL UNIQUE,
+created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now());
+ALTER TABLE auth_api_keys ADD FOREIGN KEY (user_id) REFERENCES auth_user(id) ON DELETE CASCADE;
 
 DROP TABLE IF EXISTS login_persons CASCADE;
 CREATE TABLE login_persons (id SERIAL NOT NULL PRIMARY KEY,
