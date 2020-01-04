@@ -1,8 +1,8 @@
 package edu.columbia.rdf.edb.manager.app.modules;
 
+import org.jebtk.modern.ModernWidget;
 import org.jebtk.modern.tabs.BlockVertTabs;
 import org.jebtk.modern.tabs.TabsModel;
-import org.jebtk.modern.widget.ModernWidget;
 
 public class ModulesPanel extends ModernWidget {
   private static final long serialVersionUID = 1L;

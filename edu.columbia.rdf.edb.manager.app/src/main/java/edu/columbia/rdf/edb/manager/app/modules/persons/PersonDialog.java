@@ -7,6 +7,7 @@ import javax.swing.Box;
 
 import org.jebtk.core.cryptography.Cryptography;
 import org.jebtk.database.DatabaseResultsTable;
+import org.jebtk.modern.ModernWidget;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.combobox.ModernComboBox;
@@ -20,7 +21,6 @@ import org.jebtk.modern.text.ModernAutoSizeLabel;
 import org.jebtk.modern.text.ModernClipboardTextField;
 import org.jebtk.modern.text.ModernTextBorderPanel;
 import org.jebtk.modern.text.ModernTextField;
-import org.jebtk.modern.widget.ModernWidget;
 import org.jebtk.modern.window.ModernWindow;
 
 import edu.columbia.rdf.edb.manager.app.tools.Persons;

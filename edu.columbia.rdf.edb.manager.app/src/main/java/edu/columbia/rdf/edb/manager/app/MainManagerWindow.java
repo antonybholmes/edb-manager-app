@@ -19,6 +19,7 @@ import org.jebtk.core.io.TmpService;
 import org.jebtk.database.JDBCConnection;
 import org.jebtk.modern.AssetService;
 import org.jebtk.modern.ModernComponent;
+import org.jebtk.modern.ModernWidget;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.clipboard.ClipboardRibbonSection;
 import org.jebtk.modern.contentpane.ModernHContentPane;
@@ -35,7 +36,6 @@ import org.jebtk.modern.status.ModernStatusBar;
 import org.jebtk.modern.tabs.SizableTab;
 import org.jebtk.modern.tabs.TabsModel;
 import org.jebtk.modern.tabs.TabsViewPanel;
-import org.jebtk.modern.widget.ModernWidget;
 import org.jebtk.modern.window.ModernRibbonWindow;
 
 import edu.columbia.rdf.edb.Species;

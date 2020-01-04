@@ -20,6 +20,7 @@ import org.jebtk.database.query.ValuesQuery;
 import org.jebtk.database.query.WhereQuery;
 import org.jebtk.modern.AssetService;
 import org.jebtk.modern.BorderService;
+import org.jebtk.modern.ModernWidget;
 import org.jebtk.modern.UI;
 import org.jebtk.modern.button.ModernButton;
 import org.jebtk.modern.dialog.MessageDialogType;
@@ -31,7 +32,6 @@ import org.jebtk.modern.panel.HBox;
 import org.jebtk.modern.panel.ModernPanel;
 import org.jebtk.modern.scrollpane.ModernScrollPane;
 import org.jebtk.modern.table.ModernRowTable;
-import org.jebtk.modern.widget.ModernWidget;
 
 import edu.columbia.rdf.edb.manager.app.MainManagerWindow;
 
